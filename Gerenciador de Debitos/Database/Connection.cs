@@ -9,52 +9,59 @@ namespace Gerenciador_de_Debitos
 {
     public class Connection
     {
-        private string strConn;
-        MySqlConnection connection;
-        MySqlCommand command;
+        private static string strConn = "Server=leonardocds15.sytes.net;Database=debitos;Uid=engenharia3;Pwd=bsifipp2sem2021";
+        private static MySqlConnection connection;
+        private static MySqlCommand command;
+        private static Connection singleton;
 
-        public Connection()
+        public MySqlConnection MySqlConnectionFatory
         {
-            this.strConn = "Server=127.0.0.1;Database=debitos;Uid=root;Pwd=7;du9T6xSm;<$}4c;";
-            if (this.connection == null)
-            {
-                this.connection = new MySqlConnection(this.strConn);
-                this.command = connection.CreateCommand();
-            }
+            get { return connection; }
+        }
+
+        private Connection()
+        {
         }
 
 
-        public void OpenConnection()
+        public static Connection getConnection()
         {
-            if (this.connection.State != System.Data.ConnectionState.Open)
-                this.connection.Open();
+            if (singleton == null)
+            {
+                singleton = new Connection();
+                connection = new MySqlConnection(strConn);
+                command = connection.CreateCommand();
+                if (connection.State != ConnectionState.Open)
+                    connection.Open();
+            }
+            return singleton;
         }
 
         public void CloseConnection()
         {
-            this.connection.Close();
+            connection.Close();
         }
 
         public void ClearParameters()
         {
-            this.command.Parameters.Clear();
+            command.Parameters.Clear();
         }
 
 
         public int ExecutarNonQuery(string sql, Dictionary<string,object> parameters = null)
         {
-            this.command.CommandText = sql;
+            command.CommandText = sql;
             if(parameters != null)
             {
                 foreach (var item in parameters)
                 {
-                    this.command.Parameters.AddWithValue(item.Key, item.Value);
+                    command.Parameters.AddWithValue(item.Key, item.Value);
                 }
             }
             int rows;
             try
             {
-                rows = this.command.ExecuteNonQuery();
+                rows = command.ExecuteNonQuery();
             }
             catch(MySqlException e)
             {
@@ -65,33 +72,33 @@ namespace Gerenciador_de_Debitos
 
         public void addParameter(string param,string value)
         {
-            this.command.Parameters.AddWithValue(param, value);
+            command.Parameters.AddWithValue(param, value);
         }
 
         public string GetStrConn()
         {
-            return this.strConn;
+            return strConn;
         }
 
 
         public DataTable ExecuteSelect(string sql, Dictionary<string, object> parameters = null)
         {
             DataTable tabMemoria = new DataTable();
-            this.command.CommandText = sql;
+            command.CommandText = sql;
             if (parameters != null)
             {
                 foreach (var item in parameters)
                 {
-                    this.command.Parameters.AddWithValue(item.Key, item.Value);
+                    command.Parameters.AddWithValue(item.Key, item.Value);
                 }
             }
-            tabMemoria.Load(this.command.ExecuteReader());
+            tabMemoria.Load(command.ExecuteReader());
             return tabMemoria;
         }
 
         public void SetStrConn(string host, string database, string username, string password)
         {
-            this.strConn = $"Server={host};Database={database};Uid={username};Pwd={password}";
+            strConn = $"Server={host};Database={database};Uid={username};Pwd={password}";
         }
 
        
