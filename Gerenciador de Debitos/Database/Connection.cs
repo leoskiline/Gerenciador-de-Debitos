@@ -1,4 +1,4 @@
-﻿using MySqlConnector;
+﻿using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -9,98 +9,93 @@ namespace Gerenciador_de_Debitos
 {
     public class Connection
     {
-        private static string strConn = "Server=leonardocds15.sytes.net;Database=debitos;Uid=engenharia3;Pwd=bsifipp2sem2021";
-        private static MySqlConnection connection;
-        private static MySqlCommand command;
-        private static Connection singleton;
+        private string strConn = "Server=leonardocds15.sytes.net;Database=debitos;Uid=engenharia3;Pwd=bsifipp2sem2021;SslMode=none;";
+        private MySqlConnection _conexao;
+        private MySqlCommand _comando;
 
-        public MySqlConnection MySqlConnectionFactory
+        public Connection()
         {
-            get { return connection; }
-        }
-
-        private Connection()
-        {
-        }
-
-
-        public static Connection getConnection()
-        {
-            if (singleton == null)
+            if(_conexao == null && _comando == null)
             {
-                singleton = new Connection();
-                connection = new MySqlConnection(strConn);
-                command = connection.CreateCommand();
-                if (connection.State != ConnectionState.Open)
-                    connection.Open();
+                _conexao = new MySqlConnection(strConn);
+                _comando = _conexao.CreateCommand();
             }
-            return singleton;
         }
 
-        public void CloseConnection()
+        public void AbrirConexao()
         {
-            connection.Close();
+            if (_conexao.State != System.Data.ConnectionState.Open)
+                _conexao.Open();
         }
 
-        public void ClearParameters()
+        public void FecharConexao()
         {
-            command.Parameters.Clear();
+            _conexao.Close();
+
+            //_comando.CommandText = "SELECT , insert,delete,update";
+            // _comando.ExecuteNonQuery();//i,d,u
+            //_comando.ExecuteReader();//select
+            //_comando.ExecuteScalar();//Retorna somente 1 valor, tipo count,max,avg
         }
 
-
-        public int ExecutarNonQuery(string sql, Dictionary<string,object> parameters = null)
+        public void LimparParametros()
         {
-            command.CommandText = sql;
-            if(parameters != null)
+            _comando.Parameters.Clear();
+        }
+
+        /// <summary>
+        /// Executa Insert,Delete ou Update
+        /// </summary>
+        public int ExecutarNonQuery(string sql, Dictionary<string, object> parametros = null)
+        {
+            _comando.CommandText = sql;
+            if (parametros != null)
             {
-                foreach (var item in parameters)
+                foreach (var item in parametros)
                 {
-                    command.Parameters.AddWithValue(item.Key, item.Value);
+                    _comando.Parameters.AddWithValue(item.Key, item.Value);
                 }
             }
             int rows;
             try
             {
-                rows = command.ExecuteNonQuery();
+                rows = _comando.ExecuteNonQuery();
             }
-            catch(MySqlException e)
+            catch (MySqlException e)
             {
                 rows = 0;
             }
             return rows;
         }
 
-        public void addParameter(string param,string value)
+        public void AdicionarParametro(string param, string valor)
         {
-            command.Parameters.AddWithValue(param, value);
+            _comando.Parameters.AddWithValue(param, valor);
         }
 
-        public string GetStrConn()
-        {
-            return strConn;
-        }
-
-
-        public DataTable ExecuteSelect(string sql, Dictionary<string, object> parameters = null)
+        public DataTable ExecutarSelect(string sql, Dictionary<string, object> parametros = null)
         {
             DataTable tabMemoria = new DataTable();
-            command.CommandText = sql;
-            if (parameters != null)
+            _comando.CommandText = sql;
+            if (parametros != null)
             {
-                foreach (var item in parameters)
+                foreach (var item in parametros)
                 {
-                    command.Parameters.AddWithValue(item.Key, item.Value);
+                    _comando.Parameters.AddWithValue(item.Key, item.Value);
                 }
             }
-            tabMemoria.Load(command.ExecuteReader());
+            tabMemoria.Load(_comando.ExecuteReader());
             return tabMemoria;
         }
 
-        public void SetStrConn(string host, string database, string username, string password)
+        public object ExecutarConsultaSimples(string sql)
         {
-            strConn = $"Server={host};Database={database};Uid={username};Pwd={password}";
+            object valor = null;
+            _comando.CommandText = sql;
+            valor = _comando.ExecuteScalar();
+            return valor;
         }
 
-       
+
     }
 }

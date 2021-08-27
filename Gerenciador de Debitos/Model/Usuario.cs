@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -11,21 +12,52 @@ namespace Gerenciador_de_Debitos.Model
         private string email;
         private string senha;
         private string nome;
+        private Connection conexao;
 
-        public Usuario(int idUsuario, string email, string senha, string nome)
+        public Usuario(int idUsuario, string email, string senha, string nome,Connection conn)
         {
+            this.conexao = conn;
             this.IdUsuario = idUsuario;
             this.Email = email;
             this.Senha = senha;
             this.Nome = nome;
         }
 
-        public Usuario()
+        public Usuario(Connection conn)
         {
+            this.conexao = conn;
             this.IdUsuario = 0;
             this.Email = "";
             this.Senha = "";
             this.Nome = "";
+        }
+
+        public Usuario()
+        {
+
+        }
+
+        public bool autenticarUsuario()
+        {
+            bool ret = false;
+            try
+            {
+                string sql = "SELECT nome FROM usuario WHERE email = @email AND senha = @senha";
+                this.conexao.LimparParametros();
+                this.conexao.AdicionarParametro("@email", this.email);
+                this.conexao.AdicionarParametro("@senha", this.senha);
+                DataTable dt = this.conexao.ExecutarSelect(sql);
+                if(dt.Rows.Count > 0)
+                {
+                    ret = true;
+                }
+                return ret;
+            }
+            catch(Exception e)
+            {
+                throw new Exception("Ocorreu um Erro:" + e.ToString());
+            }
+            
         }
 
         public int IdUsuario { get => idUsuario; set => idUsuario = value; }
