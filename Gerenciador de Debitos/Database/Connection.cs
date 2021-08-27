@@ -14,7 +14,7 @@ namespace Gerenciador_de_Debitos
         private static MySqlCommand command;
         private static Connection singleton;
 
-        public MySqlConnection MySqlConnectionFatory
+        public MySqlConnection MySqlConnectionFactory
         {
             get { return connection; }
         }
