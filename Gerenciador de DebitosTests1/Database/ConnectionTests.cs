@@ -21,6 +21,8 @@ namespace Gerenciador_de_Debitos.Tests
             {
                 Console.WriteLine(row["nome"]);
             }
+            IEnumerable<DataRow> dr = dt.AsEnumerable();
+            Array vetor = dr.ToArray();
             Assert.IsNotNull(dt);
         }
     }
