@@ -117,3 +117,13 @@
 .swal2-popup {
     font-size: 1.75rem;
 }
+
+.panel-header {
+    margin-bottom: 5px;
+    padding: 10px;
+    background: #53A3CD;
+    color: white;
+    font-weight: bold;
+    font-size: 17px;
+    text-align: center;
+}
