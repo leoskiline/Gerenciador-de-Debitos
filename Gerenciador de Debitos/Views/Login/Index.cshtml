@@ -13,9 +13,9 @@
     <link rel="stylesheet" href="~/css/login.css" />
 </head>
 <body>
-    <div class="container">
-        <div class="row">
-            <div class="col-md-6 col-md-offset-3">
+    <div class="container mt-10">
+        <div class="row centerLogin">
+            <div class="col-md-6 fadein">
                 <div class="panel panel-login panel-header">SISTEMA DE GERENCIAMENTO DE DEBITOS</div>
                 <div class="panel panel-login">
                     <div class="panel-heading">
@@ -54,20 +54,26 @@
                                 <form id="register-form" onsubmit="return false;" method="post" role="form" style="display: none;">
                                     <div class="form-group">
                                         <input type="text" name="nomeRegister" id="nomeRegister" tabindex="1" class="form-control" placeholder="Nome" value="">
+                                        <small id="obrigatorioNomeRegister" class="d-none"><b class="text-danger">*</b> Por favor digite o nome</small>
                                     </div>
                                     <div class="form-group">
                                         <input type="email" name="emailRegister" id="emailRegister" tabindex="1" class="form-control" placeholder="Email" value="">
+                                        <small id="obrigatorioEmailRegister" class="d-none"></small>
                                     </div>
                                     <div class="form-group">
                                         <input type="password" name="senhaRegister" id="senhaRegister" tabindex="2" class="form-control" placeholder="Senha">
+                                        <small id="obrigatorioSenhaRegister" class="d-none"><b class="text-danger">*</b> Por favor digite a senha</small>
                                     </div>
                                     <div class="form-group">
                                         <input type="password" name="confirmar-senhaRegister" id="confirmar-senhaRegister" tabindex="2" class="form-control" placeholder="Confirmar Senha">
+                                        <small id="obrigatorioSenhaConfirma" class="d-none"><b class="text-danger">*</b> Por favor confirme sua senha.</small>
+                                        <small id="senhasNaoCorrespondem" class="d-none"><b class="text-danger">*</b> Senhas nao correspondem</small>
                                     </div>
                                     <div class="form-group">
                                         <div class="row">
                                             <div class="col-sm-6 col-sm-offset-3">
-                                                <button type="button" name="register-submit" id="register-submit" tabindex="4" class="form-control btn btn-register"><i class="fas fa-user-plus"></i> Registrar-se</button>
+                                                <div id="registrando" name="registrando" class="text-center"></div>
+                                                <button type="button" name="register-submit" id="register-submit" tabindex="4" onclick="_login.efetuarRegistro()" class="form-control btn btn-register"><i class="fas fa-user-plus"></i> Registrar-se</button>
                                             </div>
                                         </div>
                                     </div>

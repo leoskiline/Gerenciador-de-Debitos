@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Security.Claims;
 
 namespace Gerenciador_de_Debitos.Controller
@@ -15,6 +16,11 @@ namespace Gerenciador_de_Debitos.Controller
         public LoginController(UsuarioAutenticado ua)
         {
             _ua = ua;
+            if(conexao == null)
+            {
+                conexao = new Connection();
+            }
+            
         }
 
         public IActionResult Index()
@@ -34,9 +40,28 @@ namespace Gerenciador_de_Debitos.Controller
         }
 
         [HttpPost]
+        public ActionResult Registrar()
+        {
+            this.conexao.AbrirConexao();
+            Usuario user = new Usuario(this.conexao);
+            user.Nome = Request.Form["nomeRegister"].ToString();
+            user.Email = Request.Form["emailRegister"].ToString();
+            user.Senha = Request.Form["senhaRegister"].ToString();
+            NameValueCollection ret = user.registrarUsuario();
+            string icon = ret["icon"];
+            string message = ret["message"];
+            var retorno = new
+            {
+                icon,
+                message
+            };
+            this.conexao.FecharConexao();
+            return Json(retorno);
+        }
+
+        [HttpPost]
         public ActionResult Logar()
         {
-            this.conexao = new Connection();
             this.conexao.AbrirConexao();
             string icon = "error";
             string message = "Usuario ou Senha Invalida.";

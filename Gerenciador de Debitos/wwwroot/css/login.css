@@ -1,5 +1,5 @@
-﻿body {
-    padding-top: 90px;
+﻿html{
+    height:100%;
 }
 
 .panel-login {
@@ -126,4 +126,65 @@
     font-weight: bold;
     font-size: 17px;
     text-align: center;
+}
+
+
+.centerLogin{
+    display:flex;
+    justify-content:center;
+}
+
+body{
+    min-height:100%;
+}
+
+.mt-10{
+    margin-top:10%;
+}
+
+.fadein {
+    animation: fadein 3s;
+    -moz-animation: fadein 3s; /* Firefox */
+    -webkit-animation: fadein 3s; /* Safari and Chrome */
+    -o-animation: fadein 3s; /* Opera */
+}
+
+@keyframes fadein {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@-moz-keyframes fadein { /* Firefox */
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@-webkit-keyframes fadein { /* Safari and Chrome */
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@-o-keyframes fadein { /* Opera */
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
 }

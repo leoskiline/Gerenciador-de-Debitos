@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
@@ -35,6 +36,61 @@ namespace Gerenciador_de_Debitos.Model
         public Usuario()
         {
 
+        }
+
+        public NameValueCollection registrarUsuario()
+        {
+            NameValueCollection ret = new NameValueCollection()
+            {
+                {"icon","info" },
+                {"message","Opss... Algo deu errado ao registrar Usuairo." }
+            };
+            try
+            {
+                if (this.verificarEmailRegistrado())
+                {
+                    ret["icon"] = "warning";
+                    ret["message"] = $"E-mail nao esta disponivel.";
+                }else
+                {
+                    string sql = "INSERT INTO usuario (email,senha,nome) VALUES(@email,@senha,@nome)";
+                    this.conexao.LimparParametros();
+                    this.conexao.AdicionarParametro("@email", this.Email);
+                    this.conexao.AdicionarParametro("@senha", this.Senha);
+                    this.conexao.AdicionarParametro("@nome", this.Nome);
+                    if(this.conexao.ExecutarNonQuery(sql) > 0)
+                    {
+                        ret["icon"] = "success";
+                        ret["message"] = "E-mail registrado com Sucesso!";
+                    }
+                }
+            }catch(Exception e)
+            {
+                throw new Exception("Ocorreu um Erro:" + e.ToString());
+            }
+            return ret;
+        }
+
+        private bool verificarEmailRegistrado()
+        {
+            bool ret = false;
+            try
+            {
+                string sql = "SELECT email FROM usuario WHERE email = @email";
+                this.conexao.LimparParametros();
+                this.conexao.AdicionarParametro("@email", this.email);
+                DataTable dt = this.conexao.ExecutarSelect(sql);
+                if(dt.Rows.Count > 0)
+                {
+                    ret = true;
+                }
+
+            }
+            catch (Exception e)
+            {
+                throw new Exception("Ocorreu um Erro:" + e.ToString());
+            }
+            return ret;
         }
 
         public bool autenticarUsuario()
