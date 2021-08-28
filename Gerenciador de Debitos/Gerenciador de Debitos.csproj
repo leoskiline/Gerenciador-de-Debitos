@@ -7,10 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="Views\Home\Index.cshtml" />
     <Content Remove="Views\Login\Index.cshtml" />
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="Views\Home\Index.cshtml" />
     <None Include="Views\Login\Index.cshtml" />
     <None Include="wwwroot\lib\fontawesome\dist\webfonts\fa-brands-400.svg" />
     <None Include="wwwroot\lib\fontawesome\dist\webfonts\fa-brands-400.woff2" />
@@ -21,6 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Authentication" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="5.0.9" />
     <PackageReference Include="MySql.Data" Version="8.0.26" />
   </ItemGroup>

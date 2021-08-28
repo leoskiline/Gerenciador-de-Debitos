@@ -1,5 +1,8 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -23,6 +26,33 @@ namespace Gerenciador_de_Debitos
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            #region Servico para Cookie Authorization
+            services.AddAuthentication(authOptions =>
+            {
+                authOptions.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                authOptions.DefaultChallengeScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                authOptions.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+            }).AddCookie(options =>
+            {
+                options.Cookie.Name = "CookieAuth";
+                options.AccessDeniedPath = new Microsoft.AspNetCore.Http.PathString("/Login/Index");
+                options.LoginPath = new Microsoft.AspNetCore.Http.PathString("/Login/Index");
+                options.ExpireTimeSpan = TimeSpan.FromDays(1);
+            });
+
+            services.AddAuthorization(auth =>
+            {
+                auth.AddPolicy("Autorizacao", new AuthorizationPolicyBuilder()
+                  .AddAuthenticationSchemes(CookieAuthenticationDefaults.AuthenticationScheme)
+                  .RequireAuthenticatedUser().Build());
+            });
+            #endregion
+
+            #region Serviço para obter o usuário autenticado
+            services.AddHttpContextAccessor();
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddScoped<UsuarioAutenticado>();
+            #endregion
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
         }
 
@@ -51,7 +81,7 @@ namespace Gerenciador_de_Debitos
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Login}/{action=Index}/{id?}");
+                    pattern: "{controller=Home}/{action=Index}");
             });
         }
     }

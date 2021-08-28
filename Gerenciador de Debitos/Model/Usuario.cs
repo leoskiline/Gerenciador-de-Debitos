@@ -42,13 +42,17 @@ namespace Gerenciador_de_Debitos.Model
             bool ret = false;
             try
             {
-                string sql = "SELECT nome FROM usuario WHERE email = @email AND senha = @senha";
+                string sql = "SELECT * FROM usuario WHERE email = @email AND senha = @senha";
                 this.conexao.LimparParametros();
                 this.conexao.AdicionarParametro("@email", this.email);
                 this.conexao.AdicionarParametro("@senha", this.senha);
                 DataTable dt = this.conexao.ExecutarSelect(sql);
                 if(dt.Rows.Count > 0)
                 {
+                    this.IdUsuario = (int)dt.Rows[0]["idUsuario"];
+                    this.Email = dt.Rows[0]["email"].ToString();
+                    this.Nome = dt.Rows[0]["nome"].ToString();
+                    this.Senha = dt.Rows[0]["senha"].ToString();
                     ret = true;
                 }
                 return ret;

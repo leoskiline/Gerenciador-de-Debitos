@@ -46,10 +46,11 @@
 				cache: false,
 				async: true,
 				beforeSend: function () {
-
+					$("#logando").html(`<b class='text-success'><i class="fas fa-spinner fa-spin"></i> Logando...</b>`)
+					$("#logando").removeClass("d-none");
 				},
 				complete: function () {
-
+					$("#logando").addClass("d-none");
 				},
 				success: function (ret) {
 					Swal.fire({
@@ -58,6 +59,11 @@
 						showConfirmButton: false,
 						timer: 1500
 					});
+					if (ret.icon == "success") {
+						setTimeout(() => {
+							window.location.href = "/Home";
+						},2000)
+                    }
 				},
 				error: function (ret) {
 
