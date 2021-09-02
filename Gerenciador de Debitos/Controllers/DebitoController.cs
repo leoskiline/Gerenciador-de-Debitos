@@ -43,7 +43,7 @@ namespace Gerenciador_de_Debitos.Controller
             User.Claims.Where(w => w.Type == "Nome").First().Value,
            User.Claims.Where(w => w.Type == "Nivel").First().Value,
             this.conn);
-            List<Debito> debitos = debito.obterDebitosBanco(usuario.IdUsuario);
+            List<Debito> debitos = debito.obterDebitosBanco(usuario);
             this.conn.FecharConexao();
             return Json(debitos);   
         }

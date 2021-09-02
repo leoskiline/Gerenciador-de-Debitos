@@ -31,10 +31,10 @@ namespace Gerenciador_de_Debitos.Model
         public Usuario(Connection conn)
         {
             this.conexao = conn;
-            this.IdUsuario = 0;
-            this.Email = "";
-            this.Senha = "";
-            this.Nome = "";
+            this.IdUsuario = -1;
+            this.Email = null;
+            this.Senha = null;
+            this.Nome = null;
             this.nivel = "COMUM";
         }
 

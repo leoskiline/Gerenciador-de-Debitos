@@ -33,24 +33,24 @@ namespace Gerenciador_de_Debitos.Model
             this.conn = conn;
         }
 
-        public List<Debito> obterDebitosBanco(int id)
+        public List<Debito> obterDebitosBanco(Usuario usuario)
         {
             List<Debito> debitos = new List<Debito>();
             
             try
             {
                 conn.LimparParametros();
-                conn.AdicionarParametro("@idUsuario", id.ToString());
+                conn.AdicionarParametro("@idUsuario", usuario.IdUsuario.ToString());
                 DataTable dt = conn.ExecutarSelect("SELECT * FROM debitos.debito where idUsuario = @idUsuario");
                 if(dt.Rows.Count>0)
-                {
+                {           
                     foreach (DataRow row in dt.Rows)
                     {
                         this.idDebito = Convert.ToInt32(row["idDebito"]);
                         this.Descricao = row["descricao"].ToString();
                         this.Data = Convert.ToDateTime(row["data"]);
                         this.Valor = Convert.ToDouble(row["valor"]);
-                        this.Usuario = new Usuario(this.conn).obterUsuarioByID(id);
+                        this.Usuario = usuario;
                         debitos.Add(this);
                     }
                 }
