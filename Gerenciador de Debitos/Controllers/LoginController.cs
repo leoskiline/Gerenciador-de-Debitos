@@ -72,10 +72,10 @@ namespace Gerenciador_de_Debitos.Controller
             {
                 var userClaims = new List<Claim>()
                 {
-                    new Claim(ClaimTypes.Name, user.Nome),
-                    new Claim(ClaimTypes.Email, user.Email),
-                    new Claim(ClaimTypes.Sid, user.IdUsuario.ToString()),
-                    new Claim(ClaimTypes.Role, user.Nivel)
+                    new Claim("Nome", user.Nome),
+                    new Claim("Email", user.Email),
+                    new Claim("idUsuario", user.IdUsuario.ToString()),
+                    new Claim("Nivel", user.Nivel)
                 };
                 var identity = new ClaimsIdentity(userClaims, "Identificacao do Usuario");
                 ClaimsPrincipal principal = new ClaimsPrincipal(identity);
