@@ -154,7 +154,7 @@
 					});
 					if (ret.icon == "success") {
 						setTimeout(() => {
-							window.location.href = "/Home";
+							window.location.href = "/Debito";
 						},2000)
                     }
 				},

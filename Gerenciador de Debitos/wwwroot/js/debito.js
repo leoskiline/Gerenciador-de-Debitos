@@ -5,7 +5,7 @@
 
     obterUsuario() {
         $.ajax({
-            url: "/Home/obterUsuario",
+            url: "/Debito/obterUsuario",
             method: "GET",
             type: "GET",
             success: function (ret) {

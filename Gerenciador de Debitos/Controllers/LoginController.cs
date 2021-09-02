@@ -27,7 +27,7 @@ namespace Gerenciador_de_Debitos.Controller
         {
             if(_ua.Autenticado)
             {
-                return Redirect("Views/Home/index.cshtml");
+                return Redirect("Views/Debito/index.cshtml");
             }
             return View();
         }
