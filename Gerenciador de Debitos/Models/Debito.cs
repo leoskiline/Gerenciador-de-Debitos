@@ -36,6 +36,7 @@ namespace Gerenciador_de_Debitos.Model
         public List<Debito> obterDebitosBanco(int id)
         {
             List<Debito> debitos = new List<Debito>();
+            
             try
             {
                 conn.LimparParametros();
@@ -49,7 +50,7 @@ namespace Gerenciador_de_Debitos.Model
                         this.Descricao = row["descricao"].ToString();
                         this.Data = Convert.ToDateTime(row["data"]);
                         this.Valor = Convert.ToDouble(row["valor"]);
-                        this.Usuario = null;
+                        this.Usuario = new Usuario(this.conn).obterUsuarioByID(id);
                         debitos.Add(this);
                     }
                 }

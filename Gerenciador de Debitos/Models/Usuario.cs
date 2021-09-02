@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Data;
 using System.Linq;
+using System.Security.Cryptography;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace Gerenciador_de_Debitos.Model
@@ -121,7 +123,38 @@ namespace Gerenciador_de_Debitos.Model
             {
                 throw new Exception("Ocorreu um Erro:" + e.ToString());
             }
-            
+        }
+
+
+        private static byte[] GetHash(string inputString)
+        {
+            using (HashAlgorithm algorithm = SHA256.Create())
+                return algorithm.ComputeHash(Encoding.UTF8.GetBytes(inputString));
+        }
+
+        private static string GetHashString(string inputString)
+        {
+            StringBuilder sb = new StringBuilder();
+            foreach (byte b in GetHash(inputString))
+                sb.Append(b.ToString("X2"));
+
+            return sb.ToString();
+        }
+
+        public Usuario obterUsuarioByID(int idUsuario)
+        {
+            this.conexao.LimparParametros();
+            this.conexao.AdicionarParametro("@idUsuario", idUsuario.ToString());
+            DataTable dt = this.conexao.ExecutarSelect("SELECT * FROM debitos.usuario WHERE idUsuario = @idUsuario");
+            if (dt.Rows.Count > 0)
+            {
+                this.IdUsuario = Convert.ToInt32(dt.Rows[0]["idUsuario"]);
+                this.Email = dt.Rows[0]["email"].ToString();
+                this.Senha = GetHashString(dt.Rows[0]["senha"].ToString());
+                this.Nome = dt.Rows[0]["nome"].ToString();
+                this.Nivel = dt.Rows[0]["nivel"].ToString();
+            }
+            return this;
         }
 
         public int IdUsuario { get => idUsuario; set => idUsuario = value; }
