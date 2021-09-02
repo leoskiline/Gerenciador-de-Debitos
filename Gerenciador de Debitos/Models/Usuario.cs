@@ -13,15 +13,17 @@ namespace Gerenciador_de_Debitos.Model
         private string email;
         private string senha;
         private string nome;
+        private string nivel;
         private Connection conexao;
 
-        public Usuario(int idUsuario, string email, string senha, string nome,Connection conn)
+        public Usuario(int idUsuario, string email, string senha, string nome,string nivel,Connection conn)
         {
             this.conexao = conn;
             this.IdUsuario = idUsuario;
             this.Email = email;
             this.Senha = senha;
             this.Nome = nome;
+            this.Nivel = nivel;
         }
 
         public Usuario(Connection conn)
@@ -31,6 +33,7 @@ namespace Gerenciador_de_Debitos.Model
             this.Email = "";
             this.Senha = "";
             this.Nome = "";
+            this.nivel = "COMUM";
         }
 
         public Usuario()
@@ -109,6 +112,7 @@ namespace Gerenciador_de_Debitos.Model
                     this.Email = dt.Rows[0]["email"].ToString();
                     this.Nome = dt.Rows[0]["nome"].ToString();
                     this.Senha = dt.Rows[0]["senha"].ToString();
+                    this.Nivel = dt.Rows[0]["nivel"].ToString();
                     ret = true;
                 }
                 return ret;
@@ -124,5 +128,7 @@ namespace Gerenciador_de_Debitos.Model
         public string Email { get => email; set => email = value; }
         public string Senha { get => senha; set => senha = value; }
         public string Nome { get => nome; set => nome = value; }
+
+        public string Nivel { get => nivel; set => nivel = value; }
     }
 }
