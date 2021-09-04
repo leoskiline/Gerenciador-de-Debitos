@@ -32,9 +32,38 @@ namespace Gerenciador_de_Debitos.Model
         {
             this.conn = conn;
         }
+        public int IdDebito { get => idDebito; set => idDebito = value; }
+        public string Descricao { get => descricao; set => descricao = value; }
+        public DateTime Data { get => data; set => data = value; }
+        public double Valor { get => valor; set => valor = value; }
+        public Usuario Usuario { get => usuario; set => usuario = value; }
 
-    
-
+        public List<Debito> obterDebitosPorNome(Usuario usu, string descricao)
+        {
+            List<Debito> debitos = new List<Debito>();
+            try
+            {
+                DataTable dt = conn.ExecutarSelect($"SELECT * FROM debitos.debito where idUsuario = {usu.IdUsuario} and descricao = '{descricao}'");
+                if (dt.Rows.Count > 0)
+                {
+                    foreach (DataRow row in dt.Rows)
+                    {
+                        Debito debito = new Debito(this.conn);
+                        debito.idDebito = Convert.ToInt32(row["idDebito"]);
+                        debito.Descricao = row["descricao"].ToString();
+                        debito.Data = Convert.ToDateTime(row["data"]);
+                        debito.Valor = Convert.ToDouble(row["valor"]);
+                        debito.Usuario = usuario;
+                        debitos.Add(debito);
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
+            return debitos;
+        }
 
         public List<Debito> obterDebitosBanco(Usuario usuario)
         {
@@ -59,40 +88,53 @@ namespace Gerenciador_de_Debitos.Model
                 }
             }catch(Exception e)
             {
-
+                Console.WriteLine(e);
             }
             return debitos;
         }
-        public (int, string) InsereCadastro()
-        {
 
+        public bool Cadastrar() // Feito por Pedro
+        {
             int linhasAfetadas = 0;
-            string msg = "";
             try
             {
-                string sql = "insert into contato (descricao,data,valor,idUsuario) values (@descricao,@data,@valor,@idUsuario)";
-
-
-
-
-           
+                string sql = "insert into debitos.debito (descricao, data, valor, idUsuario)" +
+                                $"values ('{descricao}', '{data.ToString("yyyy-MM-dd")}', {valor}, {usuario.IdUsuario})";
+                linhasAfetadas = conn.ExecutarNonQuery(sql);
             }
-            catch (Exception ex)
+            catch (Exception e)
             {
-                msg = "Não foi possível salvar. Tente novamente.";
+                Console.WriteLine(e);
             }
-
-            return (linhasAfetadas, msg);
+            return linhasAfetadas > 0;
         }
 
-
-
-
-
-        public int IdDebito { get => idDebito; set => idDebito = value; }
-        public string Descricao { get => descricao; set => descricao = value; }
-        public DateTime Data { get => data; set => data = value; }
-        public double Valor { get => valor; set => valor = value; }
-        public Usuario Usuario { get => usuario; set => usuario = value; }
+        public List<Debito> filtroDebitos(Usuario usu)
+        {
+            List<Debito> debitos = new List<Debito>();
+            try
+            {
+                DataTable dt = conn.ExecutarSelect($"SELECT * FROM debitos.debito where idUsuario = {usuario.IdUsuario}" +
+                    $" and (descricao = '{descricao}' or data = '{data.ToString("yyyy,MM,dd")}' or valor = {valor})");
+                if (dt.Rows.Count > 0)
+                {
+                    foreach (DataRow row in dt.Rows)
+                    {
+                        Debito debito = new Debito(this.conn);
+                        debito.idDebito = Convert.ToInt32(row["idDebito"]);
+                        debito.Descricao = row["descricao"].ToString();
+                        debito.Data = Convert.ToDateTime(row["data"]);
+                        debito.Valor = Convert.ToDouble(row["valor"]);
+                        debito.Usuario = usuario;
+                        debitos.Add(debito);
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
+            return debitos;
+        }
     }
 }

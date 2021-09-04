@@ -18,7 +18,7 @@ namespace Gerenciador_de_Debitos.Model
         private string nivel;
         private Connection conexao;
 
-        public Usuario(int idUsuario, string email, string senha, string nome,string nivel,Connection conn)
+        public Usuario(int idUsuario, string email, string senha, string nome, string nivel, Connection conn)
         {
             this.conexao = conn;
             this.IdUsuario = idUsuario;
@@ -48,14 +48,14 @@ namespace Gerenciador_de_Debitos.Model
             NameValueCollection ret = new NameValueCollection()
             {
                 {"icon","info" },
-                {"message","Opss... Algo deu errado ao registrar Usuairo." }
+                {"message","Opss... Algo deu errado ao registrar Usuario." }
             };
             try
             {
                 if (this.verificarEmailRegistrado())
                 {
                     ret["icon"] = "warning";
-                    ret["message"] = $"E-mail nao esta disponivel.";
+                    ret["message"] = $"E-mail não esta disponivel.";
                 }else
                 {
                     string sql = "INSERT INTO usuario (email,senha,nome) VALUES(@email,@senha,@nome)";
@@ -89,7 +89,6 @@ namespace Gerenciador_de_Debitos.Model
                 {
                     ret = true;
                 }
-
             }
             catch (Exception e)
             {

@@ -31,8 +31,8 @@
                     let padraoData = item.data.slice(0, 10).split("-");
                     let dataFormatada = `${padraoData[2]}/${padraoData[1]}/${padraoData[0]}`;
                     linhas += `
-                                <tr>
-                                    <td>
+                                <tr class="debito">
+                                    <td class="descricao">
                                         ${item.descricao}
                                     </td>
                                     <td class="text-center">
@@ -65,17 +65,29 @@
             data: document.getElementById("data").value,
             valor: document.getElementById("valor").value,
         }
-        alert(dados.descricao);
-        alert(dados.valor);
 
-    $.ajax({
-        url: "/Debito/CadastrarConta",
-        method: "POST",
-        type: "POST",
-        data: dados,
-    })
-}
+        $.ajax({
+            url: "/Debito/CadastrarConta",
+            method: "POST",
+            type: "POST",
+            data: dados,
+        })
+    }
 
+    FiltrarConta() {
+        let dados = {
+            fdescricao: document.getElementById("fdescricao").value,
+            fdata: document.getElementById("fdata").value,
+            fvalor: document.getElementById("fvalor").value,
+        }
+        alert(dados.fdescricao);
+        $.ajax({
+            url: "/Debito/filtrarDebitos",
+            method: "GET",
+            type: "GET",
+            data: dados,
+        })
+    }
 }
 
 var _gerenciarContas = new GerenciarContas();

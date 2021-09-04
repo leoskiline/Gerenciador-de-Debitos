@@ -58,24 +58,24 @@
                                 <div class="col-md-6">
                                     <div class="position-relative form-group">
                                         <label for="descricao">Descrição</label>
-                                        <input name="descricao" id="descricao" type="text" class="form-control" />
+                                        <input name="fdescricao" id="fdescricao" type="text" class="form-control" />
                                     </div>
                                 </div>
                                 <div class="col-md-3">
                                     <div class="position-relative form-group">
                                         <label for="data">Data</label>
-                                        <input name="data" id="data" type="datetime-local" class="form-control" />
+                                        <input name="fdata" id="fdata" type="datetime-local" class="form-control" />
                                     </div>
                                 </div>
                                 <div class="col-md-3">
                                     <div class="position-relative form-group">
                                         <label for="valor">Valor</label>
-                                        <input name="valor" id="valor" type="number" min="0" class="form-control" />
+                                        <input name="fvalor" id="fvalor" type="number" min="0" class="form-control" />
                                     </div>
                                 </div>
                                 <div class="col-md-12">
                                     <div class="position-relative form-group">
-                                        <button class="btn btn-primary float-right"><i class="fas fa-sort-amount-down-alt"></i> Filtrar</button>
+                                        <button class="btn btn-primary float-right" onclick="filter()"><i class="fas fa-sort-amount-down-alt"></i> Filtrar</button>
                                     </div>
                                 </div>
                             </div>
@@ -95,6 +95,24 @@
                                 <tbody id="tabela">
                                 </tbody>
                             </table>
+                            <script type="text/javascript">
+                                function filter() {
+
+                                    var value, name, profile, i;
+
+                                    value = document.getElementById("value").value.toUpperCase();
+                                    profile = document.getElementsByClassName("debito");
+
+                                    for (i = 0; i < profile.length; i++) {
+                                        name = profile[i].getElementsByClassName("descricao");
+                                        if (name[0].innerHTML.toUpperCase().indexOf(value) > -1) {
+                                            profile[i].style.display = "flex";
+                                        } else {
+                                            profile[i].style.display = "none";
+                                        }
+                                    }
+                                }
+                            </script>
                         </div>
                     </div>
                 </div>
