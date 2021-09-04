@@ -36,7 +36,6 @@ namespace Gerenciador_de_Debitos.Model
         public List<Debito> obterDebitosBanco(Usuario usuario)
         {
             List<Debito> debitos = new List<Debito>();
-            
             try
             {
                 conn.LimparParametros();
@@ -46,12 +45,13 @@ namespace Gerenciador_de_Debitos.Model
                 {           
                     foreach (DataRow row in dt.Rows)
                     {
-                        this.idDebito = Convert.ToInt32(row["idDebito"]);
-                        this.Descricao = row["descricao"].ToString();
-                        this.Data = Convert.ToDateTime(row["data"]);
-                        this.Valor = Convert.ToDouble(row["valor"]);
-                        this.Usuario = usuario;
-                        debitos.Add(this);
+                        Debito debito = new Debito(this.conn);
+                        debito.idDebito = Convert.ToInt32(row["idDebito"]);
+                        debito.Descricao = row["descricao"].ToString();
+                        debito.Data = Convert.ToDateTime(row["data"]);
+                        debito.Valor = Convert.ToDouble(row["valor"]);
+                        debito.Usuario = usuario;
+                        debitos.Add(debito);
                     }
                 }
             }catch(Exception e)

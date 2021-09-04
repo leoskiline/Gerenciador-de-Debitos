@@ -41,7 +41,7 @@ namespace Gerenciador_de_Debitos.Controller
             Usuario usuario = new Usuario(Convert.ToInt32(HttpContext.User.Claims.Where(w => w.Type == "idUsuario").First().Value),
             User.Claims.Where(w => w.Type == "Email").First().Value,"",
             User.Claims.Where(w => w.Type == "Nome").First().Value,
-           User.Claims.Where(w => w.Type == "Nivel").First().Value,
+            User.Claims.Where(w => w.Type == "Nivel").First().Value,
             this.conn);
             List<Debito> debitos = debito.obterDebitosBanco(usuario);
             this.conn.FecharConexao();
