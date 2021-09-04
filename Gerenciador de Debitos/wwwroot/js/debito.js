@@ -33,26 +33,21 @@
                     linhas += `
                                 <tr>
                                     <td>
-                                        ${item.idDebito}
-                                    </td>
-                                    <td>
                                         ${item.descricao}
                                     </td>
-                                    <td>
+                                    <td class="text-center">
                                         ${dataFormatada}
                                     </td>
-                                    <td>
-                                        <input class="valor" id="valor" name="valor" value="${item.valor}" type="text" />
+                                    <td class="text-center">
+                                        <span name="inputValor">${new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(item.valor)}</span>
                                     </td>
-                                    <td>
+                                    <td class="text-center">
                                         dois icones (excluir e alterar)
                                     </td>
                                 </tr>
                                 `;
                 });
                 tbodyTable.innerHTML = linhas;
-                $('#valor').mask('000.000.000.000.000,00', { reverse: true });
-                $('#valor').mask("#.##0,00", { reverse: true });
             },
             error: function () {
 
