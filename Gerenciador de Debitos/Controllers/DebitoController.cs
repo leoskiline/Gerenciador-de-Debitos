@@ -31,6 +31,33 @@ namespace Gerenciador_de_Debitos.Controller
         {
             return Ok(User.Claims.Select(x => new { Type = x.Type, Value = x.Value}));
         }
+        [HttpPost]
+
+        public IActionResult CadastrarConta()
+        {
+
+            string descricao = Request.Form["descricao"].ToString();
+
+
+
+            /*string descricao = dados.GetProperty("descricao").ToString();
+            string valor = dados.GetProperty("valor").ToString();
+            string data = dados.GetProperty("data").ToString();*/
+
+
+       /*     this.conn.AbrirConexao();
+            Usuario usuario = new Usuario(Convert.ToInt32(HttpContext.User.Claims.Where(w => w.Type == "idUsuario").First().Value),
+            User.Claims.Where(w => w.Type == "Email").First().Value, "",
+            User.Claims.Where(w => w.Type == "Nome").First().Value,
+            User.Claims.Where(w => w.Type == "Nivel").First().Value,
+            this.conn);*/
+
+            //Debito debito = new Debito(
+
+            return Json("OK");
+            //    );
+
+        }
 
         [HttpGet]
         [Authorize("Autorizacao")]

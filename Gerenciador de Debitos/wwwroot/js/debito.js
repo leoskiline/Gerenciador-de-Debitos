@@ -48,12 +48,34 @@
                                 `;
                 });
                 tbodyTable.innerHTML = linhas;
+
+
             },
             error: function () {
 
             }
         })
     }
+
+
+    CadastrarConta() {
+
+        let dados = {
+            descricao: document.getElementById("descricao").value,
+            data: document.getElementById("data").value,
+            valor: document.getElementById("valor").value,
+        }
+        alert(dados.descricao);
+        alert(dados.valor);
+
+    $.ajax({
+        url: "/Debito/CadastrarConta",
+        method: "POST",
+        type: "POST",
+        data: dados,
+    })
+}
+
 }
 
 var _gerenciarContas = new GerenciarContas();
@@ -61,3 +83,5 @@ $(document).ready(function () {
     _gerenciarContas.obterUsuario();
     _gerenciarContas.obterDebitos();
 });
+
+

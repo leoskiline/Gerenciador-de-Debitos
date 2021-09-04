@@ -33,6 +33,9 @@ namespace Gerenciador_de_Debitos.Model
             this.conn = conn;
         }
 
+    
+
+
         public List<Debito> obterDebitosBanco(Usuario usuario)
         {
             List<Debito> debitos = new List<Debito>();
@@ -60,6 +63,31 @@ namespace Gerenciador_de_Debitos.Model
             }
             return debitos;
         }
+        public (int, string) InsereCadastro()
+        {
+
+            int linhasAfetadas = 0;
+            string msg = "";
+            try
+            {
+                string sql = "insert into contato (descricao,data,valor,idUsuario) values (@descricao,@data,@valor,@idUsuario)";
+
+
+
+
+           
+            }
+            catch (Exception ex)
+            {
+                msg = "Não foi possível salvar. Tente novamente.";
+            }
+
+            return (linhasAfetadas, msg);
+        }
+
+
+
+
 
         public int IdDebito { get => idDebito; set => idDebito = value; }
         public string Descricao { get => descricao; set => descricao = value; }

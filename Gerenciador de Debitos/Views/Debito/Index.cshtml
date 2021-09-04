@@ -17,10 +17,26 @@
                                 <div class="position-relative form-group"><label for="data" class="">Data de cobrança</label><input name="data" id="data" type="date" class="form-control"></div>
                             </div>
                             <div class="col-md-3">
-                                <div class="position-relative form-group"><label for="valor" class="">Valor</label><input name="valor" id="valor" type="number" class="form-control"></div>
+                                <div class="position-relative form-group"><label for="valor" class="">Valor</label><input name="valor" id="valor" type="text" class="form-control"></div>
                             </div>
+
+                            <script>
+                                $(document).ready(function () {
+                                    $("#valor").inputmask('decimal', {
+                                        'alias': 'numeric',
+                                        'groupSeparator': ',',
+                                        'autoGroup': true,
+                                        'digits': 2,
+                                        'radixPoint': ".",
+                                        'digitsOptional': false,
+                                        'allowMinus': false,
+                                        'prefix': 'R$ ',
+                                        'placeholder': ''
+                                    });
+                            </script>
+
                         </div>
-                        <button class="mt-2 btn btn-success float-right"><i class="fa fa-check-square text-white"></i> Cadastrar</button>
+                        <button class="mt-2 btn btn-success float-right" onclick="_gerenciarContas.CadastrarConta()"><i class="fa fa-check-square text-white"></i> Cadastrar</button>
                     </form>
                 </div>
             </div>
@@ -77,13 +93,16 @@
                                     </tr>
                                 </thead>
                                 <tbody id="tabela">
-                                    
                                 </tbody>
                             </table>
                         </div>
                     </div>
                 </div>
             </div>
-            </div>
         </div>
     </div>
+</div>
+<script src="~/lib/JqueryMoney/jquery.maskMoney.js"></script>
+<script src="~/lib/JqueryMoney/jquery.maskMoney.min.js"></script>
+<script src="~/lib/jquery/dist/jquery.js"></script>
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
