@@ -63,6 +63,7 @@ namespace Gerenciador_de_Debitos
             }
             catch (MySqlException e)
             {
+                 Console.WriteLine(e);
                 rows = 0;
             }
             return rows;

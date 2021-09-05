@@ -48,6 +48,33 @@ namespace Gerenciador_de_Debitos.Controller
             return Json(ret);
         }
 
+        [HttpPut]
+        [Authorize("Autorizacao")]
+        public IActionResult AlterarDados([FromBody] JsonElement dados)
+        {
+           
+         
+            int codigo = Convert.ToInt32(dados.GetProperty("modalCodigo").ToString());
+            double valor = Convert.ToDouble(dados.GetProperty("modalValor").ToString().Replace(",", "."))/100;
+            string descricao = (dados.GetProperty("modalDescricao").ToString());
+            DateTime data = Convert.ToDateTime(dados.GetProperty("modalData").ToString());
+
+            Usuario usuario = new Usuario(Convert.ToInt32(HttpContext.User.Claims.Where(w => w.Type == "idUsuario").First().Value),
+            User.Claims.Where(w => w.Type == "Email").First().Value, "",
+            User.Claims.Where(w => w.Type == "Nome").First().Value,
+            User.Claims.Where(w => w.Type == "Nivel").First().Value,
+            this.conn);
+            
+            this.conn.AbrirConexao();
+            Debito debito = new Debito(codigo,descricao,data,valor,usuario,conn);
+
+            bool ret = debito.AlterarConta();
+            this.conn.FecharConexao();
+            return Json(ret);
+        }
+
+
+
         [HttpPost]
         [Authorize("Autorizacao")]
         public IActionResult CadastrarConta() // Feito por Pedro

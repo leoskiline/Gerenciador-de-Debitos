@@ -60,7 +60,7 @@ namespace Gerenciador_de_Debitos.Model
                 }
             }catch(Exception e)
             {
-
+                Console.WriteLine(e);
             }
             return sucesso;
         }
@@ -127,6 +127,31 @@ namespace Gerenciador_de_Debitos.Model
             {
                 string sql = "insert into debitos.debito (descricao, data, valor, idUsuario)" +
                                 $"values ('{descricao}', '{data.ToString("yyyy-MM-dd")}', {valor}, {usuario.IdUsuario})";
+                linhasAfetadas = conn.ExecutarNonQuery(sql);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
+            return linhasAfetadas > 0;
+        }
+        public bool AlterarConta() // Feito por Pedro
+        {
+            int linhasAfetadas = 0;
+            try
+            {
+                string valor = this.valor.ToString().Replace(",",".");
+                string data = this.data.ToString("yyyy-MM-dd");
+                conn.LimparParametros();
+                conn.AdicionarParametro("@idUsuario", this.usuario.IdUsuario.ToString());
+                conn.AdicionarParametro("@descricao", this.descricao);
+                conn.AdicionarParametro("@valor", valor);
+                conn.AdicionarParametro("@idDebito", this.idDebito.ToString());
+                conn.AdicionarParametro("@data", data);
+
+                string sql = "UPDATE debitos.debito SET descricao=@descricao, valor=@valor, data=@data" +
+                    " WHERE idDebito=@idDebito";
+                
                 linhasAfetadas = conn.ExecutarNonQuery(sql);
             }
             catch (Exception e)

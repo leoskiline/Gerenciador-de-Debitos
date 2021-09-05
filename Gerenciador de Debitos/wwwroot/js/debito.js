@@ -64,7 +64,7 @@
         let dados = {
             descricao: document.getElementById("descricao").value,
             data: document.getElementById("data").value,
-            valor: document.getElementById("valor").value,
+            valor: document.getElementById("valor").value.slice(2, 30),
         }
 
         $.ajax({
@@ -90,11 +90,38 @@
         })
     }
 
-    AlterarConta(codigo,descricao,data,valor) {
+    AlterarConta(codigo, descricao, data, valor) {
+        document.getElementById("modalCodigo").value = codigo;
         document.getElementById("modalDescricao").value = descricao;
         document.getElementById("modalData").value = data.slice(0, 10);
         document.getElementById("modalValor").value = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(valor)
+       
     }
+
+    SalvarAlteracao() {
+
+        let dados = {
+
+            modalCodigo: document.getElementById("modalCodigo").value,
+            modalDescricao: document.getElementById("modalDescricao").value,
+            modalData: document.getElementById("modalData").value,
+            modalValor: document.getElementById("modalValor").value.slice(3,30)
+        }
+      
+        $.ajax({
+            url: "/Debito/AlterarDados",
+            method: "PUT",
+            type: "PUT",
+            data: JSON.stringify(dados),
+            contentType: "application/json",
+            dataType: "json",
+        })
+
+    }
+
+
+
+
 
     ExcluirConta(idDebito) {
         let dados = {
