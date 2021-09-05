@@ -32,11 +32,38 @@ namespace Gerenciador_de_Debitos.Model
         {
             this.conn = conn;
         }
+
+        public Debito(int idDebito,Connection conn)
+        {
+            this.IdDebito = idDebito;
+            this.conn = conn;
+        }
+
         public int IdDebito { get => idDebito; set => idDebito = value; }
         public string Descricao { get => descricao; set => descricao = value; }
         public DateTime Data { get => data; set => data = value; }
         public double Valor { get => valor; set => valor = value; }
         public Usuario Usuario { get => usuario; set => usuario = value; }
+
+
+        public bool DeletarPorID()
+        {
+            bool sucesso = false;
+            try
+            {
+                this.conn.LimparParametros();
+                this.conn.AdicionarParametro("@idDebito", this.IdDebito.ToString());
+                int rows = this.conn.ExecutarNonQuery("DELETE FROM debitos.debito WHERE idDebito = @idDebito");
+                if(rows > 0)
+                {
+                    sucesso = true;
+                }
+            }catch(Exception e)
+            {
+
+            }
+            return sucesso;
+        }
 
         public List<Debito> obterDebitosPorNome(Usuario usu, string descricao)
         {

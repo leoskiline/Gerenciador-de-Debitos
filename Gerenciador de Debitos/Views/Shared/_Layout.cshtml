@@ -1,7 +1,4 @@
-﻿@{
-    Layout = null;
-}
-<!doctype html>
+﻿<!doctype html>
 <html lang="pt-br">
 
 <head>
@@ -25,7 +22,9 @@
     -->
     <link href="/template/architectui/main.css" rel="stylesheet">
     <link href="~/lib/fontawesome/dist/css/all.min.css" rel="stylesheet" />
-    
+    <link href="~/css/site.css" rel="stylesheet" />
+    <link href="~/lib/sweetalert2/dist/css/sweetalert2.min.css" rel="stylesheet" />
+
 </head>
 <body>
     <div class="app-container app-theme-white body-tabs-shadow fixed-sidebar fixed-header">
@@ -75,17 +74,14 @@
                             <div class="widget-content-wrapper">
                                 <div class="widget-content-left">
                                     <div class="btn-group">
-                                        <a data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="p-0 btn">
+                                        <a data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="p-0 btn branco">
                                             <img width="42" class="rounded-circle" src="~/template/architectui/assets/images/avatars/1.jpg" alt="">
                                             <i class="fa fa-angle-down ml-2 opacity-8"></i>
                                         </a>
                                         <div tabindex="-1" role="menu" aria-hidden="true" class="dropdown-menu dropdown-menu-right">
-                                            <button type="button" tabindex="0" class="dropdown-item">User Account</button>
-                                            <button type="button" tabindex="0" class="dropdown-item">Settings</button>
-                                            <h6 tabindex="-1" class="dropdown-header">Header</h6>
-                                            <button type="button" tabindex="0" class="dropdown-item">Actions</button>
-                                            <div tabindex="-1" class="dropdown-divider"></div>
-                                            <button type="button" tabindex="0" class="dropdown-item text-danger"><a href="Login/Sair"> <span class="text-danger" style="text-decoration:none;">LogOut</span></a></button>
+                                            <button type="button" tabindex="0" class="dropdown-item"><span><i class="fas fa-user"></i> Detalhes do Usuario</i></span></button>
+
+                                            <button type="button" tabindex="0" class="dropdown-item text-danger"><a href="Login/Sair"> <span class="text-danger"><i class="fas fa-sign-out-alt"></i> Deslogar</span></a></button>
                                         </div>
                                     </div>
                                 </div>
@@ -484,6 +480,7 @@
     <script type="text/javascript" src="~/template/architectui/assets/scripts/main.js"></script>
     <script type="text/javascript" src="~/js/debito.js"></script>
     <script src="~/lib/fontawesome/dist/js/all.js"></script>
+    <script src="~/lib/sweetalert2/dist/js/sweetalert2.min.js"></script>
 
 </body>
 </html>

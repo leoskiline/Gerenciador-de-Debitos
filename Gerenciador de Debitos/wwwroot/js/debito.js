@@ -42,8 +42,8 @@
                                         <span name="inputValor">${new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(item.valor)}</span>
                                     </td>
                                     <td class="text-center">
-                                         <span class="btn btn-dark rounded p-2"   type="button"  onclick="_gerenciarContas.AlterarConta()">Alterar<i class="fas fa-pen-square m-2"></i></span>
-                                          <span class="btn btn-danger rounded p-2"  type="button" onclick="_gerenciarContas.ExcluirConta()">Excluir <i class="fas fa-trash-alt  m-2 "></i></span>
+                                         <button type="button" class="btn btn-dark rounded"   type="button"  data-toggle="modal" data-target=".bd-modal-lg" onclick="_gerenciarContas.AlterarConta(${item.idDebito},'${item.descricao}','${item.data}',${item.valor})">Alterar <i class="fas fa-pen-square ml-1"></i></button>
+                                          <button type="button" class="btn btn-danger rounded"  type="button" onclick="_gerenciarContas.ExcluirConta(${item.idDebito})">Excluir <i class="fas fa-trash-alt ml-1"></i></button>
                                     </td>
                                 </tr>
                                 `;
@@ -90,11 +90,73 @@
         })
     }
 
-    AlterarConta() {
-        alert("Alterar Conta");
+    AlterarConta(codigo,descricao,data,valor) {
+        document.getElementById("modalDescricao").value = descricao;
+        document.getElementById("modalData").value = data.slice(0, 10);
+        document.getElementById("modalValor").value = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(valor)
     }
-    ExcluirConta() {
-        alert("Deletar Conta");
+
+    ExcluirConta(idDebito) {
+        let dados = {
+            "idDebito": idDebito
+        }
+        Swal.fire({
+            icon: "info",
+            title: "Deseja Confirmar Exclusao?",
+            confirmButtonText: "Confirmar",
+            confirmButtonColor: "#3085d6",
+            cancelButtonText: "Cancelar",
+            cancelButtonColor: '#d33',
+            showCancelButton: true
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: "/Debito/Deletar",
+                    type: "DELETE",
+                    method: "DELETE",
+                    contentType: "application/json",
+                    dataType: "json",
+                    data: JSON.stringify(dados),
+                    success: (result) => {
+                        if (result) {
+                            this.obterDebitos()
+                            Swal.fire(
+                                {
+                                    icon: "success",
+                                    title: "Despesa Deletada com Sucesso.",
+                                    confirmButtonColor: '#3085d6'
+                                }
+                            )
+                        }
+                        else {
+                            Swal.fire(
+                                {
+                                    icon: "error",
+                                    title: "Opss! Algo de Errado não esta certo.",
+                                    confirmButtonColor: '#3085d6'
+                                }
+                            )
+                        }
+                    },
+                    error: (retorno) => {
+                        Swal.fire(
+                            {
+                                icon: "error",
+                                title: "Opss! Algo de Errado não esta certo.",
+                                confirmButtonColor: '#3085d6'
+                            }
+                        )
+                    }
+                })
+                
+            }
+        })
+    }
+
+    mask() {
+        $("#valor").maskMoney({ prefix: 'R$ ', allowNegative: false, thousands: '.', decimal: ',', affixesStay: true, allowZero: false });
+        $("#fvalor").maskMoney({ prefix: 'R$ ', allowNegative: false, thousands: '.', decimal: ',', affixesStay: true, allowZero: false });
+        $("#modalValor").maskMoney({ prefix: 'R$ ', allowNegative: false, thousands: '.', decimal: ',', affixesStay: true, allowZero: false });
     }
 
 }
@@ -103,6 +165,7 @@ var _gerenciarContas = new GerenciarContas();
 $(document).ready(function () {
     _gerenciarContas.obterUsuario();
     _gerenciarContas.obterDebitos();
+    _gerenciarContas.mask();
 });
 
 

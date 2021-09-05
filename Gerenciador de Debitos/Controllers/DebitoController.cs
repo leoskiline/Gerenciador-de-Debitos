@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
 using System.Security.Claims;
+using System.Text.Json;
 using System.Threading.Tasks;
 using Gerenciador_de_Debitos.Model;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 namespace Gerenciador_de_Debitos.Controller
 {
@@ -31,6 +33,19 @@ namespace Gerenciador_de_Debitos.Controller
         public IActionResult obterUsuario()
         {
             return Ok(User.Claims.Select(x => new { Type = x.Type, Value = x.Value}));
+        }
+
+
+        [HttpDelete]
+        [Authorize("Autorizacao")]
+        public IActionResult Deletar([FromBody] JsonElement dados)
+        {
+            int codigo = Convert.ToInt32(dados.GetProperty("idDebito").ToString());
+            this.conn.AbrirConexao();
+            Debito debito = new Debito(codigo,this.conn);
+            bool ret = debito.DeletarPorID();
+            this.conn.FecharConexao();
+            return Json(ret);
         }
 
         [HttpPost]

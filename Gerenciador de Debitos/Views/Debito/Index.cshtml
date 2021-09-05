@@ -6,8 +6,11 @@
     <div class="tab-content">
         <div class="tab-pane tabs-animation fade active show" id="tab-content-0" role="tabpanel">
             <div class="main-card mb-3 card">
+                <div class="card-header">
+                    <h5 class="card-title pt-3">Cadastro de Contas</h5>
+                </div>
                 <div class="card-body">
-                    <h5 class="card-title">Cadastro de Contas</h5>
+                    
                     <form class="">
                         <div class="form-row">
                             <div class="col-md-6">
@@ -19,30 +22,11 @@
                             <div class="col-md-3">
                                 <div class="position-relative form-group"><label for="valor" class="">Valor</label><input name="valor" id="valor" type="text" class="form-control"></div>
                             </div>
-
-                            <script>
-                                $(document).ready(function () {
-                                    $("#valor").inputmask('decimal', {
-                                        'alias': 'numeric',
-                                        'groupSeparator': ',',
-                                        'autoGroup': true,
-                                        'digits': 2,
-                                        'radixPoint': ".",
-                                        'digitsOptional': false,
-                                        'allowMinus': false,
-                                        'prefix': 'R$ ',
-                                        'placeholder': ''
-                                    });
-                            </script>
-
                         </div>
                         <button class="mt-2 btn btn-success float-right" onclick="_gerenciarContas.CadastrarConta()"><i class="fa fa-check-square text-white"></i> Cadastrar</button>
                     </form>
                 </div>
             </div>
-        </div>
-        <div class="tab-pane tabs-animation fade" id="tab-content-1" role="tabpanel">
-
         </div>
     </div>
     <div class="row">
@@ -64,13 +48,13 @@
                                 <div class="col-md-3">
                                     <div class="position-relative form-group">
                                         <label for="data">Data</label>
-                                        <input name="fdata" id="fdata" type="datetime-local" class="form-control" />
+                                        <input name="fdata" id="fdata" type="date" class="form-control" />
                                     </div>
                                 </div>
                                 <div class="col-md-3">
                                     <div class="position-relative form-group">
                                         <label for="valor">Valor</label>
-                                        <input name="fvalor" id="fvalor" type="number" min="0" class="form-control" />
+                                        <input name="fvalor" id="fvalor" type="text" class="form-control" />
                                     </div>
                                 </div>
                                 <div class="col-md-12">
@@ -93,26 +77,9 @@
                                     </tr>
                                 </thead>
                                 <tbody id="tabela">
+
                                 </tbody>
                             </table>
-                            <script type="text/javascript">
-                                function filter() {
-
-                                    var value, name, profile, i;
-
-                                    value = document.getElementById("value").value.toUpperCase();
-                                    profile = document.getElementsByClassName("debito");
-
-                                    for (i = 0; i < profile.length; i++) {
-                                        name = profile[i].getElementsByClassName("descricao");
-                                        if (name[0].innerHTML.toUpperCase().indexOf(value) > -1) {
-                                            profile[i].style.display = "flex";
-                                        } else {
-                                            profile[i].style.display = "none";
-                                        }
-                                    }
-                                }
-                            </script>
                         </div>
                     </div>
                 </div>
@@ -120,7 +87,38 @@
         </div>
     </div>
 </div>
-<script src="~/lib/JqueryMoney/jquery.maskMoney.js"></script>
-<script src="~/lib/JqueryMoney/jquery.maskMoney.min.js"></script>
-<script src="~/lib/jquery/dist/jquery.js"></script>
-<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<div class="container-fluid">
+    <div class="modal fade bd-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" style="display: none;" aria-hidden="true" data-backdrop="false">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">ALTERAR CONTA</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true" class="text-danger">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label for="modalDescricao">DESCRICAO</label>
+                            <input type="text" class="form-control" id="modalDescricao"/>
+                        </div>
+                        <div class="col-md-4">
+                            <label for="modalData">DATA</label>
+                            <input type="date" class="form-control" id="modalData"/>
+                        </div>
+                        <div class="col-md-4">
+                            <label for="modalValor">VALOR</label>
+                            <input type="text" class="form-control" id="modalValor"/>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Fechar</button>
+                    <button type="button" class="btn btn-success">Salvar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
