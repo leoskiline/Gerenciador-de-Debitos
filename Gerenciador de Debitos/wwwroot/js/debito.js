@@ -42,7 +42,9 @@
                                         <span name="inputValor">${new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(item.valor)}</span>
                                     </td>
                                     <td class="text-center">
-                                        dois icones (excluir e alterar)
+                                         <span class="btn btn-dark rounded p-2"   type="button"  onclick="GerenciarContas.AlterarConta()">Alterar<i class="fas fa-pen-square m-2"></i></span>
+                                          <span class="btn btn-danger rounded p-2"  type="button" onclick="GerenciarContas.ExcluirConta()">Excluir <i class="fas fa-trash-alt  m-2 "></i></span>
+ 
                                     </td>
                                 </tr>
                                 `;
@@ -88,6 +90,14 @@
             data: dados,
         })
     }
+
+    AlterarConta() {
+        alert("Alterar Conta");
+    }
+    ExcluirConta() {
+        alert("Deletar Conta");
+    }
+
 }
 
 var _gerenciarContas = new GerenciarContas();
