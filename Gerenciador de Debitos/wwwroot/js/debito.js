@@ -21,6 +21,7 @@
 
     dataTable() {
         $('#table').DataTable({
+            "destroy": true,
             "searching": false,
             "language": {
                 "emptyTable": "Nenhum registro encontrado",
@@ -233,6 +234,7 @@
             url: "/Debito/obterDebitos",
             method: "GET",
             type: "GET",
+            async: true,
             success: function (ret) {
                 let tbodyTable = document.getElementById("tabela");
                 let linhas = "";
@@ -258,7 +260,6 @@
                                 `;
                 });
                 tbodyTable.innerHTML = linhas;
-                _gerenciarContas.dataTable();
             },
             error: function () {
 
