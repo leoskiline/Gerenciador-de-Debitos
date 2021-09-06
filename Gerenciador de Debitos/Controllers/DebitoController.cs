@@ -93,6 +93,7 @@ namespace Gerenciador_de_Debitos.Controller
 
             bool duplicado = false;
             string msg = "";
+            string icon = "";
 
             // Validar se o usuário já possui uma descrição e data iguais.
             // Por exemplo: pode sim haver duas contas de água, mas não com a data igual !
@@ -105,6 +106,8 @@ namespace Gerenciador_de_Debitos.Controller
                         if (data == item.Data)
                         {
                             duplicado = true;
+                            msg = "Nao foi possivel adicionar, Conta Duplicada.";
+                            icon = "error";
                         }
                     }
                 }
@@ -124,13 +127,14 @@ namespace Gerenciador_de_Debitos.Controller
                 debito.Valor = valor;
                 debito.Usuario = usuario;
                 cadastrado = debito.Cadastrar();
+                msg = "Conta Cadastrada com Sucesso!";
+                icon = "success";
             }
             this.conn.FecharConexao();
             var retorno = new
             {
-                msg,
-                duplicado,
-                cadastrado
+                icon,
+                msg
             };
             return Json(retorno);
         }

@@ -125,8 +125,13 @@ namespace Gerenciador_de_Debitos.Model
             int linhasAfetadas = 0;
             try
             {
-                string sql = "insert into debitos.debito (descricao, data, valor, idUsuario)" +
-                                $"values ('{descricao}', '{data.ToString("yyyy-MM-dd")}', {valor}, {usuario.IdUsuario})";
+                this.conn.LimparParametros();
+                this.conn.AdicionarParametro("@descricao", this.Descricao);
+                this.conn.AdicionarParametro("@data", this.Data.ToString("yyyy-MM-dd"));
+                this.conn.AdicionarParametro("@valor", this.Valor.ToString().Replace(",","."));
+                this.conn.AdicionarParametro("@idUsuario", this.Usuario.IdUsuario.ToString());
+                string sql = "INSERT INTO debitos.debito (descricao, data, valor, idUsuario) " +
+                                "VALUES (@descricao,@data,@valor,@idUsuario)";
                 linhasAfetadas = conn.ExecutarNonQuery(sql);
             }
             catch (Exception e)

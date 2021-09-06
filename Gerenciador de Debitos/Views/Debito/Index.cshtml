@@ -11,7 +11,7 @@
                 </div>
                 <div class="card-body">
                     
-                    <form class="">
+                    <form onsubmit="return false">
                         <div class="form-row">
                             <div class="col-md-6">
                                 <div class="position-relative form-group"><label for="descricao" class="">Descrição da conta</label><input name="descricao" id="descricao" type="text" class="form-control"></div>
@@ -37,7 +37,7 @@
                 </div>
                 <div class="card-body">
                     <div class="row">
-                        <form class="w-100">
+                        <form class="w-100" onsubmit="return false;">
                             <div class="form-row p-3">
                                 <div class="col-md-6">
                                     <div class="position-relative form-group">
@@ -67,7 +67,7 @@
                     </div>
                     <div class="row">
                         <div class="table-responsive">
-                            <table class="align-middle mb-0 table table-borderless table-striped table-hover">
+                            <table class="align-middle mb-0 table table-borderless table-striped table-hover" id="table">
                                 <thead>
                                     <tr>
                                         <th>DESCRIÇÃO</th>

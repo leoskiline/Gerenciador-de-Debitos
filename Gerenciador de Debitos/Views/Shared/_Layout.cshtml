@@ -22,8 +22,10 @@
     -->
     <link href="/template/architectui/main.css" rel="stylesheet">
     <link href="~/lib/fontawesome/dist/css/all.min.css" rel="stylesheet" />
-    <link href="~/css/site.css" rel="stylesheet" />
     <link href="~/lib/sweetalert2/dist/css/sweetalert2.min.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.1/css/dataTables.bootstrap4.min.css">
+    <link href="~/css/site.css" rel="stylesheet" />
 
 </head>
 <body>
@@ -79,9 +81,8 @@
                                             <i class="fa fa-angle-down ml-2 opacity-8"></i>
                                         </a>
                                         <div tabindex="-1" role="menu" aria-hidden="true" class="dropdown-menu dropdown-menu-right">
-                                            <button type="button" tabindex="0" class="dropdown-item"><span><i class="fas fa-user"></i> Detalhes do Usuario</i></span></button>
-
-                                            <button type="button" tabindex="0" class="dropdown-item text-danger"><a href="Login/Sair"> <span class="text-danger"><i class="fas fa-sign-out-alt"></i> Deslogar</span></a></button>
+                                            <button type="button" tabindex="0" class="dropdown-item"><span><i class="fas fa-user"></i> Detalhes do Usuario</span></button>
+                                            <a href="Login/Sair" class="dropdown-item text-danger"><span class="text-danger"><i class="fas fa-sign-out-alt"></i> Deslogar</span></a>
                                         </div>
                                     </div>
                                 </div>
@@ -176,14 +177,14 @@
                                 </li>
                             </ul>
                         </div>
-                        <h3 class="themeoptions-heading">
-                            <div>
+                        <div class="themeoptions-heading">
+                            <h3>
                                 Header Options
-                            </div>
+                            </h3>
                             <button type="button" class="btn-pill btn-shadow btn-wide ml-auto btn btn-focus btn-sm switch-header-cs-class" data-class="">
                                 Restore Default
                             </button>
-                        </h3>
+                        </div>
                         <div class="p-3">
                             <ul class="list-group">
                                 <li class="list-group-item">
@@ -269,12 +270,12 @@
                                 </li>
                             </ul>
                         </div>
-                        <h3 class="themeoptions-heading">
-                            <div>Sidebar Options</div>
+                        <div class="themeoptions-heading">
+                            <h3>Sidebar Options</h3>
                             <button type="button" class="btn-pill btn-shadow btn-wide ml-auto btn btn-focus btn-sm switch-sidebar-cs-class" data-class="">
                                 Restore Default
                             </button>
-                        </h3>
+                        </div>
                         <div class="p-3">
                             <ul class="list-group">
                                 <li class="list-group-item">
@@ -360,12 +361,12 @@
                                 </li>
                             </ul>
                         </div>
-                        <h3 class="themeoptions-heading">
-                            <div>Main Content Options</div>
+                        <div class="themeoptions-heading">
+                            <h3>Main Content Options</h3>
                             <button type="button" class="btn-pill btn-shadow btn-wide ml-auto active btn btn-focus btn-sm">
                                 Restore Default
                             </button>
-                        </h3>
+                        </div>
                         <div class="p-3">
                             <ul class="list-group">
                                 <li class="list-group-item">
@@ -481,6 +482,7 @@
     <script type="text/javascript" src="~/js/debito.js"></script>
     <script src="~/lib/fontawesome/dist/js/all.js"></script>
     <script src="~/lib/sweetalert2/dist/js/sweetalert2.min.js"></script>
-
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.1/js/jquery.dataTables.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.1/js/dataTables.bootstrap4.min.js"></script>
 </body>
 </html>
