@@ -37,49 +37,198 @@
                 </div>
                 <div class="card-body">
                     <div class="row">
-                        <form class="w-100" onsubmit="return false;">
-                            <div class="form-row p-3">
-                                <div class="col-md-6">
-                                    <div class="position-relative form-group">
-                                        <label for="descricao">Descrição</label>
-                                        <input name="fdescricao" id="fdescricao" type="text" class="form-control" />
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="position-relative form-group">
-                                        <label for="data">Data</label>
-                                        <input name="fdata" id="fdata" type="date" class="form-control" />
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="position-relative form-group">
-                                        <label for="valor">Valor</label>
-                                        <input name="fvalor" id="fvalor" type="text" class="form-control" />
-                                    </div>
-                                </div>
-                                <div class="col-md-12">
-                                    <div class="position-relative form-group">
-                                        <button class="btn btn-primary float-right" onclick="filter()"><i class="fas fa-sort-amount-down-alt"></i> Filtrar</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </form>
+                       
                     </div>
                     <div class="row">
                         <div class="table-responsive">
-                            <table class="align-middle mb-0 table table-borderless table-striped table-hover" id="table">
-                                <thead>
-                                    <tr>
-                                        <th>DESCRIÇÃO</th>
-                                        <th class="text-center">DATA</th>
-                                        <th class="text-center">VALOR</th>
-                                        <th class="text-center">OPÇÕES</th>
-                                    </tr>
-                                </thead>
+                            <table class="align-middle mb-0 table sampleTable table-borderless table-striped table-hover" id="sampleTableB">
+                        @*<thead>
+                            <tr>
+                                <th>DESCRIÇÃO</th>
+                                <th class="text-center">DATA</th>
+                                <th class="text-center">VALOR</th>
+                                <th class="text-center">OPÇÕES</th>
+                            </tr>
+                        </thead>*@
                                 <tbody id="tabela">
+                                    <tr>
+                                        <td style="display:none;"></td>
+                                        <td style="display:none;"></td>
+                                        <td style="display:none;"></td>
+                                    </tr>
+                                </tbody> 
+                            </table>
+
+                            @*<table id="sampleTableB" class="table table-striped sampleTable">
+                                <tbody>
+                                    <tr>
+                                        <td>TESTE</td>
+                                        <td>TESTE</td>
+                                        <td>TESTE</td>
+                                        <td>TESTE</td>
+                                    </tr>
+                                    <tr>
+                                        <td>TESTE2</td>
+                                        <td>TESTE2</td>
+                                        <td>TESTE2</td>
+                                        <td>TESTE2</td>
+                                    </tr>
+                                    <tr>
+                                        <td>TESTE3</td>
+                                        <td>TESTE3</td>
+                                        <td>TESTE3</td>
+                                        <td>TESTE3</td>
+                                    </tr>
+                                    <tr>
+                                        <td>TESTE</td>
+                                        <td>TESTE</td>
+                                        <td>TESTE</td>
+                                        <td>TESTE</td>
+                                    </tr>
+                                    <tr>
+                                        <td>TESTE2</td>
+                                        <td>TESTE2</td>
+                                        <td>TESTE2</td>
+                                        <td>TESTE2</td>
+                                    </tr>
+                                    <tr>
+                                        <td>TESTE3</td>
+                                        <td>TESTE3</td>
+                                        <td>TESTE3</td>
+                                        <td>TESTE3</td>
+                                    </tr>
+                                    <tr>
+                                        <td>TESTE</td>
+                                        <td>TESTE</td>
+                                        <td>TESTE</td>
+                                        <td>TESTE</td>
+                                    </tr>
+                                    <tr>
+                                        <td>TESTE2</td>
+                                        <td>TESTE2</td>
+                                        <td>TESTE2</td>
+                                        <td>TESTE2</td>
+                                    </tr>
+                                    <tr>
+                                        <td>TESTE3</td>
+                                        <td>TESTE3</td>
+                                        <td>TESTE3</td>
+                                        <td>TESTE3</td>
+                                    </tr>
+                                    <tr>
+                                        <td>TESTE</td>
+                                        <td>TESTE</td>
+                                        <td>TESTE</td>
+                                        <td>TESTE</td>
+                                    </tr>
+                                    <tr>
+                                        <td>TESTE2</td>
+                                        <td>TESTE2</td>
+                                        <td>TESTE2</td>
+                                        <td>TESTE2</td>
+                                    </tr>
+                                    <tr>
+                                        <td>TESTE3</td>
+                                        <td>TESTE3</td>
+                                        <td>TESTE3</td>
+                                        <td>TESTE3</td>
+                                    </tr>
+                                    <tr>
+                                        <td>TESTE</td>
+                                        <td>TESTE</td>
+                                        <td>TESTE</td>
+                                        <td>TESTE</td>
+                                    </tr>
+                                    <tr>
+                                        <td>TESTE2</td>
+                                        <td>TESTE2</td>
+                                        <td>TESTE2</td>
+                                        <td>TESTE2</td>
+                                    </tr>
+                                    <tr>
+                                        <td>TESTE3</td>
+                                        <td>TESTE3</td>
+                                        <td>TESTE3</td>
+                                        <td>TESTE3</td>
+                                    </tr>
+                                    <tr>
+                                        <td>TESTE</td>
+                                        <td>TESTE</td>
+                                        <td>TESTE</td>
+                                        <td>TESTE</td>
+                                    </tr>
+                                    <tr>
+                                        <td>TESTE2</td>
+                                        <td>TESTE2</td>
+                                        <td>TESTE2</td>
+                                        <td>TESTE2</td>
+                                    </tr>
+                                    <tr>
+                                        <td>TESTE3</td>
+                                        <td>TESTE3</td>
+                                        <td>TESTE3</td>
+                                        <td>TESTE3</td>
+                                    </tr>
+                                    <tr>
+                                        <td>TESTE</td>
+                                        <td>TESTE</td>
+                                        <td>TESTE</td>
+                                        <td>TESTE</td>
+                                    </tr>
+                                    <tr>
+                                        <td>TESTE2</td>
+                                        <td>TESTE2</td>
+                                        <td>TESTE2</td>
+                                        <td>TESTE2</td>
+                                    </tr>
+                                    <tr>
+                                        <td>TESTE3</td>
+                                        <td>TESTE3</td>
+                                        <td>TESTE3</td>
+                                        <td>TESTE3</td>
+                                    </tr>
+                                    <tr>
+                                        <td>TESTE</td>
+                                        <td>TESTE</td>
+                                        <td>TESTE</td>
+                                        <td>TESTE</td>
+                                    </tr>
+                                    <tr>
+                                        <td>TESTE2</td>
+                                        <td>TESTE2</td>
+                                        <td>TESTE2</td>
+                                        <td>TESTE2</td>
+                                    </tr>
+                                    <tr>
+                                        <td>TESTE3</td>
+                                        <td>TESTE3</td>
+                                        <td>TESTE3</td>
+                                        <td>TESTE3</td>
+                                    </tr>
+                                    <tr>
+                                        <td>TESTE</td>
+                                        <td>TESTE</td>
+                                        <td>TESTE</td>
+                                        <td>TESTE</td>
+                                    </tr>
+                                    <tr>
+                                        <td>TESTE2</td>
+                                        <td>TESTE2</td>
+                                        <td>TESTE2</td>
+                                        <td>TESTE2</td>
+                                    </tr>
+                                    <tr>
+                                        <td>TESTE3</td>
+                                        <td>TESTE3</td>
+                                        <td>TESTE3</td>
+                                        <td>TESTE3</td>
+                                    </tr>
 
                                 </tbody>
-                            </table>
+                            </table>*@
+
+
+
                         </div>
                     </div>
                 </div>

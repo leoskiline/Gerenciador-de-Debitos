@@ -259,12 +259,15 @@
                                 </tr>
                                 `;
                 });
-                tbodyTable.innerHTML = linhas;
+               tbodyTable.innerHTML += linhas;
             },
             error: function () {
 
             }
         })
+       
+                
+                      
     }
 
 
@@ -468,9 +471,16 @@
 
 var _gerenciarContas = new GerenciarContas();
 $(document).ready(function () {
+   
     _gerenciarContas.obterUsuario();
     _gerenciarContas.obterDebitos();
     _gerenciarContas.mask();
+    $(document).ready(function () {
+        $("#sampleTableB").fancyTable({
+            pagination: true,
+            perPage: 5,
+        });
+    });
 });
 
 
