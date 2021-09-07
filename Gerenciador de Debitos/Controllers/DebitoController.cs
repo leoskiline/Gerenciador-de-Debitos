@@ -52,8 +52,6 @@ namespace Gerenciador_de_Debitos.Controller
         [Authorize("Autorizacao")]
         public IActionResult AlterarDados([FromBody] JsonElement dados)
         {
-           
-         
             int codigo = Convert.ToInt32(dados.GetProperty("modalCodigo").ToString());
             double valor = Convert.ToDouble(dados.GetProperty("modalValor").ToString().Replace(",", "."))/100;
             string descricao = (dados.GetProperty("modalDescricao").ToString());
@@ -64,16 +62,56 @@ namespace Gerenciador_de_Debitos.Controller
             User.Claims.Where(w => w.Type == "Nome").First().Value,
             User.Claims.Where(w => w.Type == "Nivel").First().Value,
             this.conn);
-            
+
+            // Validação
+            Debito debito = new Debito(this.conn);
+            bool invalido = false;
+            string msg = "";
+            bool cadastrado = false;
+            string icon = "";
+
+            if (descricao != "" && data <= DateTime.Now && valor <= 0)
+            {
+                foreach (var item in debito.obterDebitosPorNome(usuario, descricao))
+                {
+                    if (descricao.ToUpper() == item.Descricao.ToUpper())
+                    {
+                        if (data == item.Data)
+                        {
+                            invalido = true;
+                            msg = "Nao foi possivel adicionar, Conta Duplicada.";
+                            icon = "error";
+                        }
+                    }
+                }
+            }
+            else
+            {
+                msg = "Item digitado é inválido !";
+                icon = "error";
+                invalido = true;
+            }
+
             this.conn.AbrirConexao();
-            Debito debito = new Debito(codigo,descricao,data,valor,usuario,conn);
-
-            bool ret = debito.AlterarConta();
+            
+            if (!invalido)
+            {
+                debito.Descricao = descricao;
+                debito.Data = data;
+                debito.Valor = valor;
+                debito.Usuario = usuario;
+                cadastrado = debito.AlterarConta();
+                msg = "Conta Cadastrada com Sucesso!";
+                icon = "success";
+            }
             this.conn.FecharConexao();
-            return Json(ret);
+            var retorno = new
+            {
+                icon,
+                msg
+            };
+            return Json(retorno);
         }
-
-
 
         [HttpPost]
         [Authorize("Autorizacao")]
@@ -91,13 +129,13 @@ namespace Gerenciador_de_Debitos.Controller
             User.Claims.Where(w => w.Type == "Nivel").First().Value,
             this.conn);
 
-            bool duplicado = false;
+            bool invalido = false;
             string msg = "";
             string icon = "";
 
             // Validar se o usuário já possui uma descrição e data iguais.
             // Por exemplo: pode sim haver duas contas de água, mas não com a data igual !
-            if (descricao != null)
+            if (descricao != "" && data >= DateTime.Now && valor >= 0)
             {
                 foreach (var item in debito.obterDebitosPorNome(usuario, descricao))
                 {
@@ -105,7 +143,7 @@ namespace Gerenciador_de_Debitos.Controller
                     {
                         if (data == item.Data)
                         {
-                            duplicado = true;
+                            invalido = true;
                             msg = "Nao foi possivel adicionar, Conta Duplicada.";
                             icon = "error";
                         }
@@ -114,13 +152,15 @@ namespace Gerenciador_de_Debitos.Controller
             }
             else
             {
-                msg = "Item digitado não pode ser nulo!";
+                msg = "Item digitado é inválido !";
+                icon = "error";
+                invalido = true;
             }
 
             // Gravar Dados
             bool cadastrado = false;
             
-            if (!duplicado)
+            if (!invalido)
             {
                 debito.Descricao = descricao;
                 debito.Data = data;
