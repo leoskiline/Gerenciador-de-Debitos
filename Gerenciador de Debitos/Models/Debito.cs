@@ -148,14 +148,14 @@ namespace Gerenciador_de_Debitos.Model
                 string valor = this.valor.ToString().Replace(",",".");
                 string data = this.data.ToString("yyyy-MM-dd");
                 conn.LimparParametros();
-                conn.AdicionarParametro("@idUsuario", this.usuario.IdUsuario.ToString());
+                //conn.AdicionarParametro("@idUsuario", this.usuario.IdUsuario.ToString());
                 conn.AdicionarParametro("@descricao", this.descricao);
                 conn.AdicionarParametro("@valor", valor);
                 conn.AdicionarParametro("@idDebito", this.idDebito.ToString());
                 conn.AdicionarParametro("@data", data);
 
-                string sql = "UPDATE debitos.debito SET descricao=@descricao, valor=@valor, data=@data" +
-                    " WHERE idDebito=@idDebito";
+                string sql = "UPDATE debitos.debito SET descricao = @descricao, valor = @valor, data = @data " +
+                    "WHERE idDebito = @idDebito";
                 
                 linhasAfetadas = conn.ExecutarNonQuery(sql);
             }

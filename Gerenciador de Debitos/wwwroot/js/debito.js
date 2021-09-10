@@ -20,9 +20,9 @@
     }
 
     dataTable() {
-        $('#table').DataTable({
+        $('#dataTable').DataTable({
             "destroy": true,
-            "searching": false,
+            "searching": true,
             "language": {
                 "emptyTable": "Nenhum registro encontrado",
                 "info": "Mostrando de _START_ até _END_ de _TOTAL_ registros",
@@ -259,7 +259,8 @@
                                 </tr>
                                 `;
                 });
-               tbodyTable.innerHTML += linhas;
+                tbodyTable.innerHTML = linhas;
+                _gerenciarContas.dataTable();
             },
             error: function () {
 
@@ -293,7 +294,9 @@
                                 confirmButtonColor: '#3085d6'
                             }
                         )
-                        this.obterDebitos();
+                        setTimeout(() => {
+                            window.location.reload();
+                        },1000)
                     }
                     else {
                         Swal.fire(
@@ -326,20 +329,6 @@
         
     }
 
-    FiltrarConta() {
-        let dados = {
-            fdescricao: document.getElementById("fdescricao").value,
-            fdata: document.getElementById("fdata").value,
-            fvalor: document.getElementById("fvalor").value,
-        }
-        alert(dados.fdescricao);
-        $.ajax({
-            url: "/Debito/filtrarDebitos",
-            method: "GET",
-            type: "GET",
-            data: dados,
-        })
-    }
 
     AlterarConta(codigo, descricao, data, valor) {
         document.getElementById("modalCodigo").value = codigo;
@@ -375,7 +364,9 @@
                             confirmButtonColor: '#3085d6'
                         }
                     )
-                    this.obterDebitos();
+                    setTimeout(() => {
+                        window.location.reload();
+                    }, 1000)
                 }
                 else {
                     Swal.fire(
@@ -435,6 +426,9 @@
                                     confirmButtonColor: '#3085d6'
                                 }
                             )
+                            setTimeout(() => {
+                                window.location.reload();
+                            }, 1000)
                         }
                         else {
                             Swal.fire(
@@ -475,12 +469,15 @@ $(document).ready(function () {
     _gerenciarContas.obterUsuario();
     _gerenciarContas.obterDebitos();
     _gerenciarContas.mask();
-    $(document).ready(function () {
-        $("#sampleTableB").fancyTable({
-            pagination: true,
-            perPage: 5,
-        });
-    });
+
+    //_gerenciarContas.dataTable();
+
+    //$(document).ready(function () {
+    //    $("#sampleTableB").fancyTable({
+    //        pagination: true,
+    //        perPage: 5,
+    //    });
+    //});
 });
 
 

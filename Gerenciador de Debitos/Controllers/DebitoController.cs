@@ -67,10 +67,9 @@ namespace Gerenciador_de_Debitos.Controller
             Debito debito = new Debito(this.conn);
             bool invalido = false;
             string msg = "";
-            bool cadastrado = false;
             string icon = "";
 
-            if (descricao != "" && data <= DateTime.Now && valor <= 0)
+            if (descricao != "" && data.Date >= DateTime.Now.Date && valor > 0)
             {
                 foreach (var item in debito.obterDebitosPorNome(usuario, descricao))
                 {
@@ -96,13 +95,21 @@ namespace Gerenciador_de_Debitos.Controller
             
             if (!invalido)
             {
+                debito.IdDebito = codigo;
                 debito.Descricao = descricao;
                 debito.Data = data;
                 debito.Valor = valor;
                 debito.Usuario = usuario;
-                cadastrado = debito.AlterarConta();
-                msg = "Conta Cadastrada com Sucesso!";
-                icon = "success";
+                if (debito.AlterarConta())
+                {
+                    msg = "Conta Alterada com Sucesso!";
+                    icon = "success";
+                }
+                else
+                {
+                    msg = "Conta não foi alterada !";
+                    icon = "error";
+                }
             }
             this.conn.FecharConexao();
             var retorno = new
@@ -135,7 +142,7 @@ namespace Gerenciador_de_Debitos.Controller
 
             // Validar se o usuário já possui uma descrição e data iguais.
             // Por exemplo: pode sim haver duas contas de água, mas não com a data igual !
-            if (descricao != "" && data >= DateTime.Now && valor >= 0)
+            if (descricao != "" && data.Date >= DateTime.Now.Date && valor > 0)
             {
                 foreach (var item in debito.obterDebitosPorNome(usuario, descricao))
                 {
