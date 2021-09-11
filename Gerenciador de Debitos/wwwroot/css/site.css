@@ -24,3 +24,8 @@
 .bg-cor-tema{
     background: floralwhite !important;
 }
+
+.table-hover tbody tr:hover {
+    color: #212529 !important;
+    background-color: rgb(255 250 240) !important;
+}
