@@ -1,6 +1,7 @@
 ﻿using Gerenciador_de_Debitos.Model;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
@@ -12,9 +13,16 @@ namespace Gerenciador_de_Debitos.Controller
     {
         private Connection conexao;
         private UsuarioAutenticado _ua;
+        private JsonSerializerSettings _jsonSettings;
 
         public LoginController(UsuarioAutenticado ua)
         {
+            _jsonSettings = new JsonSerializerSettings
+            {
+                DateFormatHandling = DateFormatHandling.IsoDateFormat,
+                DateTimeZoneHandling = DateTimeZoneHandling.Local,
+                DateParseHandling = DateParseHandling.None
+            };
             _ua = ua;
             if(conexao == null)
             {
@@ -86,13 +94,11 @@ namespace Gerenciador_de_Debitos.Controller
                 icon = "success";
                 message = "Autenticado com Sucesso!";
             }
-            var retorno = new
-            {
-                icon = icon,
-                message = message
-            };
+            ValidaAutenticado autenticado = new ValidaAutenticado();
+            autenticado.Message = message;
+            autenticado.Icon = icon;
             this.conexao.FecharConexao();
-            return Json(retorno);
+            return Json(autenticado);
         }
     }
 }
