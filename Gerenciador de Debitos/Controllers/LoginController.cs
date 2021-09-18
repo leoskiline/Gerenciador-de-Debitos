@@ -44,9 +44,9 @@ namespace Gerenciador_de_Debitos.Controller
         {
             this.conexao.AbrirConexao();
             Usuario user = new Usuario(this.conexao);
-            user.Nome = Request.Form["nomeRegister"].ToString();
-            user.Email = Request.Form["emailRegister"].ToString();
-            user.Senha = Request.Form["senhaRegister"].ToString();
+            user.Nome = Request.Form["nome"].ToString();
+            user.Email = Request.Form["email"].ToString();
+            user.Senha = Request.Form["senha"].ToString();
             NameValueCollection ret = user.registrarUsuario();
             string icon = ret["icon"];
             string message = ret["message"];

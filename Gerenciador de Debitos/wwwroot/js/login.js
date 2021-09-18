@@ -80,19 +80,25 @@
 	}
 
 	efetuarRegistro() {
-		let dados = new FormData(document.getElementById("register-form"));
-		let nome = dados.get("nomeRegister");
-		let email = dados.get("emailRegister");
-		let senha = dados.get("senhaRegister");
-		let confirmarSenha = dados.get("confirmar-senhaRegister");
-		let erros = this.validarCamposRegister(email, senha, confirmarSenha, nome);
+		var dados = new FormData(document.getElementById("register-form"));
+		var nome = dados.get("nomeRegister");
+		var email = dados.get("emailRegister");
+		var senha = dados.get("senhaRegister");
+		var confirmarSenha = dados.get("confirmar-senhaRegister");
+		var dadosFinal = {
+			nome,
+			email,
+			senha,
+			confirmarSenha
+        }
+		var erros = this.validarCamposRegister(email, senha, confirmarSenha, nome);
 		if (erros == 0) {
 			$.ajax({
 				url: '/Login/Registrar',
 				method: "post",
 				contentType: false,
 				processData: false,
-				data: dados,
+				data: dadosFinal,
 				cache: false,
 				async: true,
 				beforeSend: function () {
