@@ -90,13 +90,13 @@
 			email,
 			senha,
 			confirmarSenha
-        }
+		}
 		var erros = this.validarCamposRegister(email, senha, confirmarSenha, nome);
 		if (erros == 0) {
 			$.ajax({
 				url: '/Login/Registrar',
 				method: "post",
-				contentType: false,
+				contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
 				processData: false,
 				data: dadosFinal,
 				cache: false,
