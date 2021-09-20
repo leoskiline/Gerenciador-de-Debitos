@@ -342,10 +342,10 @@
 
         let dados = {
 
-            modalCodigo: document.getElementById("modalCodigo").value,
-            modalDescricao: document.getElementById("modalDescricao").value,
-            modalData: document.getElementById("modalData").value,
-            modalValor: document.getElementById("modalValor").value.slice(3,30)
+            idDebito: document.getElementById("modalCodigo").value,
+            Descricao: document.getElementById("modalDescricao").value,
+            data: document.getElementById("modalData").value,
+            valor: document.getElementById("modalValor").value.slice(3,30)
         }
       
         $.ajax({
@@ -397,7 +397,7 @@
 
     ExcluirConta(idDebito) {
         let dados = {
-            "idDebito": idDebito
+            "IdDebito": idDebito
         }
         Swal.fire({
             icon: "info",
