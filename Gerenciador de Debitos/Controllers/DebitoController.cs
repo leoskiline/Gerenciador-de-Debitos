@@ -40,22 +40,39 @@ namespace Gerenciador_de_Debitos.Controller
         [Authorize("Autorizacao")]
         public IActionResult Deletar([FromBody] JsonElement dados)
         {
-            int codigo = Convert.ToInt32(dados.GetProperty("idDebito").ToString());
+            int codigo = Convert.ToInt32(dados.GetProperty("IdDebito").ToString());
             this.conn.AbrirConexao();
             Debito debito = new Debito(codigo,this.conn);
             bool ret = debito.DeletarPorID();
             this.conn.FecharConexao();
-            return Json(ret);
+            string msg = "";
+            string icon = "";
+            if(ret)
+            {
+                msg = "Deletado com Sucesso!";
+                icon = "success";
+            }
+            else
+            {
+                msg = "Não foi possivel deletar";
+                icon = "error";
+            }
+            var retorno = new
+            {
+                icon,
+                msg
+            };
+            return Json(retorno);
         }
 
         [HttpPut]
         [Authorize("Autorizacao")]
         public IActionResult AlterarDados([FromBody] JsonElement dados)
         {
-            int codigo = Convert.ToInt32(dados.GetProperty("modalCodigo").ToString());
-            double valor = Convert.ToDouble(dados.GetProperty("modalValor").ToString().Replace(",", "."))/100;
-            string descricao = (dados.GetProperty("modalDescricao").ToString());
-            DateTime data = Convert.ToDateTime(dados.GetProperty("modalData").ToString());
+            int codigo = Convert.ToInt32(dados.GetProperty("IdDebito").ToString());
+            double valor = Convert.ToDouble(dados.GetProperty("Valor").ToString().Replace(",", "."))/100;
+            string descricao = (dados.GetProperty("Descricao").ToString());
+            DateTime data = Convert.ToDateTime(dados.GetProperty("Data").ToString());
 
             Usuario usuario = new Usuario(Convert.ToInt32(HttpContext.User.Claims.Where(w => w.Type == "idUsuario").First().Value),
             User.Claims.Where(w => w.Type == "Email").First().Value, "",
