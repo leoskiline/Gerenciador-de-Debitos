@@ -40,7 +40,7 @@ namespace Gerenciador_de_Debitos.Controller
         [Authorize("Autorizacao")]
         public IActionResult Deletar([FromBody] JsonElement dados)
         {
-            int codigo = Convert.ToInt32(dados.GetProperty("idDebito").ToString());
+            int codigo = Convert.ToInt32(dados.GetProperty("IdDebito").ToString());
             this.conn.AbrirConexao();
             Debito debito = new Debito(codigo,this.conn);
             bool ret = debito.DeletarPorID();
@@ -52,10 +52,10 @@ namespace Gerenciador_de_Debitos.Controller
         [Authorize("Autorizacao")]
         public IActionResult AlterarDados([FromBody] JsonElement dados)
         {
-            int codigo = Convert.ToInt32(dados.GetProperty("modalCodigo").ToString());
-            double valor = Convert.ToDouble(dados.GetProperty("modalValor").ToString().Replace(",", "."))/100;
-            string descricao = (dados.GetProperty("modalDescricao").ToString());
-            DateTime data = Convert.ToDateTime(dados.GetProperty("modalData").ToString());
+            int codigo = Convert.ToInt32(dados.GetProperty("IdDebito").ToString());
+            double valor = Convert.ToDouble(dados.GetProperty("Valor").ToString().Replace(",", "."))/100;
+            string descricao = (dados.GetProperty("Descricao").ToString());
+            DateTime data = Convert.ToDateTime(dados.GetProperty("Data").ToString());
 
             Usuario usuario = new Usuario(Convert.ToInt32(HttpContext.User.Claims.Where(w => w.Type == "idUsuario").First().Value),
             User.Claims.Where(w => w.Type == "Email").First().Value, "",
