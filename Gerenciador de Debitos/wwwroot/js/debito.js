@@ -342,10 +342,10 @@
 
         let dados = {
 
-            idDebito: document.getElementById("modalCodigo").value,
+            IdDebito: document.getElementById("modalCodigo").value,
             Descricao: document.getElementById("modalDescricao").value,
-            data: document.getElementById("modalData").value,
-            valor: document.getElementById("modalValor").value.slice(3,30)
+            Data: document.getElementById("modalData").value,
+            Valor: document.getElementById("modalValor").value.slice(3,30)
         }
       
         $.ajax({
