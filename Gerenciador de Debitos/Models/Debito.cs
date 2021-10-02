@@ -6,9 +6,61 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
+using Gerenciador_de_Debitos.Models;
 
 namespace Gerenciador_de_Debitos.Model
 {
+    interface Istate
+    {
+        public StatusPagamento setState(StateContext ctx);
+    }
+
+    class StateContext
+    {
+        private Istate currentState;
+
+        public StateContext()
+        {
+            currentState = new Pendente();
+        }
+
+        public void setState(Istate state)
+        {
+            currentState = state;
+        }
+
+        public Istate getState()
+        {
+            return currentState;
+        }
+
+    }
+
+    class Pago : Istate
+    {
+        public StatusPagamento setState(StateContext ctx)
+        {
+            return new StatusPagamento(2, "PAGO");
+        }
+    }
+
+    class Pendente : Istate
+    {
+        public StatusPagamento setState(StateContext ctx)
+        {
+            return new StatusPagamento(1, "PENDENTE");
+        }
+    }
+
+    class EmAtraso : Istate
+    {
+        public StatusPagamento setState(StateContext ctx)
+        {
+            return new StatusPagamento(3, "EM ATRASO");
+        }
+    }
+
+
     public class Debito
     {
         private int idDebito;
@@ -16,15 +68,17 @@ namespace Gerenciador_de_Debitos.Model
         private DateTime data;
         private double valor;
         private Usuario usuario;
+        private StatusPagamento statusPagamento;
         private Connection conn;
 
-        public Debito(int idDebito, string descricao, DateTime data, double valor, Usuario usuario,Connection conn)
+        public Debito(int idDebito, string descricao, DateTime data, double valor, Usuario usuario,StatusPagamento statusPagamento,Connection conn)
         {
             this.IdDebito = idDebito;
             this.Descricao = descricao;
             this.Data = data;
             this.Valor = valor;
             this.Usuario = usuario;
+            this.statusPagamento = statusPagamento;
             this.conn = conn;
         }
 
@@ -44,7 +98,7 @@ namespace Gerenciador_de_Debitos.Model
         public DateTime Data { get => data; set => data = value; }
         public double Valor { get => valor; set => valor = value; }
         public Usuario Usuario { get => usuario; set => usuario = value; }
-
+        public StatusPagamento StatusPagamento { get => statusPagamento; set => statusPagamento = value; }
 
         public bool DeletarPorID()
         {
@@ -109,6 +163,7 @@ namespace Gerenciador_de_Debitos.Model
                         debito.Descricao = row["descricao"].ToString();
                         debito.Data = Convert.ToDateTime(row["data"]);
                         debito.Valor = Convert.ToDouble(row["valor"]);
+                        debito.statusPagamento = new StatusPagamento().obterStatusPagamentoPorID(Convert.ToInt32(row["idStatusPagamento"]));
                         debito.Usuario = usuario;
                         debitos.Add(debito);
                     }
@@ -126,12 +181,16 @@ namespace Gerenciador_de_Debitos.Model
             try
             {
                 this.conn.LimparParametros();
+                StateContext ctx = new StateContext(); // Inicia no estado padrao Pendente.
+                ctx.setState(new Pendente()); // Para deixar claro que mudou de estado para Pendente.
+                this.statusPagamento = ctx.getState().setState(ctx);
                 this.conn.AdicionarParametro("@descricao", this.Descricao);
                 this.conn.AdicionarParametro("@data", this.Data.ToString("yyyy-MM-dd"));
                 this.conn.AdicionarParametro("@valor", this.Valor.ToString().Replace(",","."));
                 this.conn.AdicionarParametro("@idUsuario", this.Usuario.IdUsuario.ToString());
-                string sql = "INSERT INTO debitos.debito (descricao, data, valor, idUsuario) " +
-                                "VALUES (@descricao,@data,@valor,@idUsuario)";
+                this.conn.AdicionarParametro("@idStatusPagamento", this.statusPagamento.IdStatusPagamento.ToString());
+                string sql = "INSERT INTO debitos.debito (descricao, data, valor,idStatusPagamento, idUsuario) " +
+                                "VALUES (@descricao,@data,@valor,@idStatusPagamento,@idUsuario)";
                 linhasAfetadas = conn.ExecutarNonQuery(sql);
             }
             catch (Exception e)

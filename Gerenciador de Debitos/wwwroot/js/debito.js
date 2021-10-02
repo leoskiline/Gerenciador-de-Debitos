@@ -252,6 +252,9 @@
                                     <td class="text-center">
                                         <span name="inputValor">${new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(item.valor)}</span>
                                     </td>
+                                    <td class="descricao">
+                                        ${item.statusPagamento.status}
+                                    </td>
                                     <td class="text-center">
                                          <button type="button" class="btn btn-dark rounded"   type="button"  data-toggle="modal" data-target=".bd-modal-lg" onclick="_gerenciarContas.AlterarConta(${item.idDebito},'${item.descricao}','${item.data}',${item.valor})">Alterar <i class="fas fa-pen-square ml-1"></i></button>
                                           <button type="button" class="btn btn-danger rounded"  type="button" onclick="_gerenciarContas.ExcluirConta(${item.idDebito})">Excluir <i class="fas fa-trash-alt ml-1"></i></button>
