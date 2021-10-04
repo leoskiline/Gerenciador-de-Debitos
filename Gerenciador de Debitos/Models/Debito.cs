@@ -61,7 +61,7 @@ namespace Gerenciador_de_Debitos.Model
     }
 
 
-    public class Debito
+    public class Debito : ISujeito
     {
         private int idDebito;
         private string descricao;
@@ -70,6 +70,7 @@ namespace Gerenciador_de_Debitos.Model
         private Usuario usuario;
         private StatusPagamento statusPagamento;
         private Connection conn;
+        private List<IObservador> listaObservadores;
 
         public Debito(int idDebito, string descricao, DateTime data, double valor, Usuario usuario,StatusPagamento statusPagamento,Connection conn)
         {
@@ -99,7 +100,32 @@ namespace Gerenciador_de_Debitos.Model
         public double Valor { get => valor; set => valor = value; }
         public Usuario Usuario { get => usuario; set => usuario = value; }
         public StatusPagamento StatusPagamento { get => statusPagamento; set => statusPagamento = value; }
+        
+        public void AdicionarOBS(IObservador observador)    {this.listaObservadores.Add(observador);}
 
+        public void RemoverOBS(IObservador observador)  {this.listaObservadores.Remove(observador);}
+
+        public void NotificarOBS()
+        {
+            foreach (IObservador obs in this.listaObservadores)
+            {
+                if (data.Date == DateTime.Now.Date)
+                {
+                    // VH - Vence Hoje
+                    obs.Update("VH", $"Olá, o prazo do débito: '{this.descricao}' chegou ao limite e vence hoje...");
+                }
+                else if (DateTime.Now.Date.Day - data.Date.Day <= 7)
+                {
+                    // PV - Perto do Vencimento
+                    obs.Update("PV", $"Olá, o prazo do débito: '{this.descricao}' está chegando ao fim em breve...");
+                }
+                else if (data.Date > DateTime.Now.Date)
+                {
+                    // DA - Débito Atrasado
+                    obs.Update("DA", $"Olá, o prazo do débito: '{this.descricao}' está em atraso...");
+                }
+            }
+        }
         public bool DeletarPorID()
         {
             bool sucesso = false;
