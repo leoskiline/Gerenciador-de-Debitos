@@ -1,4 +1,6 @@
-﻿using System;
+﻿
+using Gerenciador_de_Debitos.Models;
+using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Data;
@@ -96,7 +98,8 @@ namespace Gerenciador_de_Debitos.Model
             }
             return ret;
         }
-
+        
+        
         public bool autenticarUsuario()
         {
             bool ret = false;
@@ -155,6 +158,10 @@ namespace Gerenciador_de_Debitos.Model
             }
             return this;
         }
+
+
+
+ 
 
         public int IdUsuario { get => idUsuario; set => idUsuario = value; }
         public string Email { get => email; set => email = value; }

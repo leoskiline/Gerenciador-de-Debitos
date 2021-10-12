@@ -1,0 +1,277 @@
+﻿@{ Layout = "_Layout"; }
+
+<div class="app-main__inner">
+    <div class="tab-content">
+        <div class="tab-pane tabs-animation fade active show" id="tab-content-0" role="tabpanel">
+            <div class="main-card mb-3 card">
+                <div class="card-header bg-cor-tema">
+                    <h5 class="card-title pt-3">Cadastro de Créditos</h5>
+                </div>
+                <div class="card-body">
+
+                    <form onsubmit="return false">
+                        <div class="form-row">
+                            <div class="col-md-6">
+                                <div class="position-relative form-group"><label for="descricao" class="">Descrição da conta</label><input name="descricao" id="descricao" type="text" class="form-control"></div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="position-relative form-group"><label for="data" class="">Data de cobrança</label><input name="data" id="data" type="date" class="form-control"></div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="position-relative form-group"><label for="valor" class="">Valor</label><input name="valor" id="valor" type="text" class="form-control"></div>
+                            </div>
+                        </div>
+                        <button class="mt-2 btn btn-success float-right" onclick="_gerenciarContas.CadastrarConta()"><i class="fa fa-check-square text-white"></i> Cadastrar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="main-card mb-3 card">
+                <div class="card-header bg-cor-tema">
+                    Creditos Cadastrados
+                </div>
+                <div class="card-body">
+                    <div class="row">
+
+                    </div>
+                    <div class="row">
+                        <div class="table-responsive">
+                            <table class="align-middle mb-0 table sampleTable table-borderless table-hover" id="dataTable">
+                                <thead>
+                                    <tr>
+                                        <th>DESCRIÇÃO</th>
+                                        <th class="text-center">DATA</th>
+                                        <th class="text-center">VALOR</th>
+                                        <th class="text-center">STATUS</th>
+                                        <th class="text-center">OPÇÕES</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tabela">
+                                    @*<tr>
+                                            <td style="display:none;"></td>
+                                            <td style="display:none;"></td>
+                                            <td style="display:none;"></td>
+                                        </tr>*@
+                                </tbody>
+                            </table>
+
+                            @*<table id="sampleTableB" class="table table-striped sampleTable">
+                                    <tbody>
+                                        <tr>
+                                            <td>TESTE</td>
+                                            <td>TESTE</td>
+                                            <td>TESTE</td>
+                                            <td>TESTE</td>
+                                        </tr>
+                                        <tr>
+                                            <td>TESTE2</td>
+                                            <td>TESTE2</td>
+                                            <td>TESTE2</td>
+                                            <td>TESTE2</td>
+                                        </tr>
+                                        <tr>
+                                            <td>TESTE3</td>
+                                            <td>TESTE3</td>
+                                            <td>TESTE3</td>
+                                            <td>TESTE3</td>
+                                        </tr>
+                                        <tr>
+                                            <td>TESTE</td>
+                                            <td>TESTE</td>
+                                            <td>TESTE</td>
+                                            <td>TESTE</td>
+                                        </tr>
+                                        <tr>
+                                            <td>TESTE2</td>
+                                            <td>TESTE2</td>
+                                            <td>TESTE2</td>
+                                            <td>TESTE2</td>
+                                        </tr>
+                                        <tr>
+                                            <td>TESTE3</td>
+                                            <td>TESTE3</td>
+                                            <td>TESTE3</td>
+                                            <td>TESTE3</td>
+                                        </tr>
+                                        <tr>
+                                            <td>TESTE</td>
+                                            <td>TESTE</td>
+                                            <td>TESTE</td>
+                                            <td>TESTE</td>
+                                        </tr>
+                                        <tr>
+                                            <td>TESTE2</td>
+                                            <td>TESTE2</td>
+                                            <td>TESTE2</td>
+                                            <td>TESTE2</td>
+                                        </tr>
+                                        <tr>
+                                            <td>TESTE3</td>
+                                            <td>TESTE3</td>
+                                            <td>TESTE3</td>
+                                            <td>TESTE3</td>
+                                        </tr>
+                                        <tr>
+                                            <td>TESTE</td>
+                                            <td>TESTE</td>
+                                            <td>TESTE</td>
+                                            <td>TESTE</td>
+                                        </tr>
+                                        <tr>
+                                            <td>TESTE2</td>
+                                            <td>TESTE2</td>
+                                            <td>TESTE2</td>
+                                            <td>TESTE2</td>
+                                        </tr>
+                                        <tr>
+                                            <td>TESTE3</td>
+                                            <td>TESTE3</td>
+                                            <td>TESTE3</td>
+                                            <td>TESTE3</td>
+                                        </tr>
+                                        <tr>
+                                            <td>TESTE</td>
+                                            <td>TESTE</td>
+                                            <td>TESTE</td>
+                                            <td>TESTE</td>
+                                        </tr>
+                                        <tr>
+                                            <td>TESTE2</td>
+                                            <td>TESTE2</td>
+                                            <td>TESTE2</td>
+                                            <td>TESTE2</td>
+                                        </tr>
+                                        <tr>
+                                            <td>TESTE3</td>
+                                            <td>TESTE3</td>
+                                            <td>TESTE3</td>
+                                            <td>TESTE3</td>
+                                        </tr>
+                                        <tr>
+                                            <td>TESTE</td>
+                                            <td>TESTE</td>
+                                            <td>TESTE</td>
+                                            <td>TESTE</td>
+                                        </tr>
+                                        <tr>
+                                            <td>TESTE2</td>
+                                            <td>TESTE2</td>
+                                            <td>TESTE2</td>
+                                            <td>TESTE2</td>
+                                        </tr>
+                                        <tr>
+                                            <td>TESTE3</td>
+                                            <td>TESTE3</td>
+                                            <td>TESTE3</td>
+                                            <td>TESTE3</td>
+                                        </tr>
+                                        <tr>
+                                            <td>TESTE</td>
+                                            <td>TESTE</td>
+                                            <td>TESTE</td>
+                                            <td>TESTE</td>
+                                        </tr>
+                                        <tr>
+                                            <td>TESTE2</td>
+                                            <td>TESTE2</td>
+                                            <td>TESTE2</td>
+                                            <td>TESTE2</td>
+                                        </tr>
+                                        <tr>
+                                            <td>TESTE3</td>
+                                            <td>TESTE3</td>
+                                            <td>TESTE3</td>
+                                            <td>TESTE3</td>
+                                        </tr>
+                                        <tr>
+                                            <td>TESTE</td>
+                                            <td>TESTE</td>
+                                            <td>TESTE</td>
+                                            <td>TESTE</td>
+                                        </tr>
+                                        <tr>
+                                            <td>TESTE2</td>
+                                            <td>TESTE2</td>
+                                            <td>TESTE2</td>
+                                            <td>TESTE2</td>
+                                        </tr>
+                                        <tr>
+                                            <td>TESTE3</td>
+                                            <td>TESTE3</td>
+                                            <td>TESTE3</td>
+                                            <td>TESTE3</td>
+                                        </tr>
+                                        <tr>
+                                            <td>TESTE</td>
+                                            <td>TESTE</td>
+                                            <td>TESTE</td>
+                                            <td>TESTE</td>
+                                        </tr>
+                                        <tr>
+                                            <td>TESTE2</td>
+                                            <td>TESTE2</td>
+                                            <td>TESTE2</td>
+                                            <td>TESTE2</td>
+                                        </tr>
+                                        <tr>
+                                            <td>TESTE3</td>
+                                            <td>TESTE3</td>
+                                            <td>TESTE3</td>
+                                            <td>TESTE3</td>
+                                        </tr>
+
+                                    </tbody>
+                                </table>*@
+
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container-fluid">
+    <div class="modal fade bd-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" style="display: none;" aria-hidden="true" data-backdrop="false">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">ALTERAR CONTA</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true" class="text-danger">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label for="modalDescricao">DESCRICAO</label>
+                            <input type="text" class="form-control" id="modalDescricao" />
+                        </div>
+                        <div class="col-md-3">
+                            <label for="modalData">DATA</label>
+                            <input type="date" class="form-control" id="modalData" />
+                        </div>
+                        <div class="col-md-3">
+                            <label for="modalValor">VALOR</label>
+                            <input type="text" class="form-control" id="modalValor" />
+                        </div>
+                        <div class="col-md-3">
+                            <label for="modalStatus">STATUS</label>
+                            <input type="text" class="form-control" id="modalStatus" />
+                        </div>
+                    </div>
+                    <input id="modalCodigo" type="hidden">
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Fechar</button>
+                    <button type="button" class="btn btn-success" onclick="_gerenciarContas.SalvarAlteracao()">Salvar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -61,7 +61,7 @@ namespace Gerenciador_de_Debitos.Model
     }
 
 
-    public class Debito : ISujeito
+    public class Debito :TemplateMethodBaseClass, ISujeito
     {
         private int idDebito;
         private string descricao;
@@ -81,6 +81,7 @@ namespace Gerenciador_de_Debitos.Model
             this.Usuario = usuario;
             this.statusPagamento = statusPagamento;
             this.conn = conn;
+
         }
 
         public Debito(Connection conn)
@@ -126,6 +127,7 @@ namespace Gerenciador_de_Debitos.Model
                 }
             }
         }
+        override
         public bool DeletarPorID()
         {
             bool sucesso = false;
@@ -225,7 +227,7 @@ namespace Gerenciador_de_Debitos.Model
             }
             return linhasAfetadas > 0;
         }
-        public bool AlterarConta() // Feito por Pedro
+        public sealed override bool AlterarConta() // Feito por Pedro
         {
             int linhasAfetadas = 0;
             try
@@ -278,5 +280,7 @@ namespace Gerenciador_de_Debitos.Model
             }
             return debitos;
         }
+
+       
     }
 }
