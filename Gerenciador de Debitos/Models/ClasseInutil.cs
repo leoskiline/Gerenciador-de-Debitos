@@ -7,7 +7,8 @@ namespace Gerenciador_de_Debitos.Models
 {
     public abstract class ClasseInutil
     {
-        public abstract void TemplateMethod();
-        
+        public abstract bool DeletarPorID();
+        public abstract bool Cadastrar();
+        public abstract bool AlterarConta();
     }
 }

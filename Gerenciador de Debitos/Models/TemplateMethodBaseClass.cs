@@ -9,15 +9,15 @@ namespace Gerenciador_de_Debitos.Models
 {
     public abstract class TemplateMethodBaseClass : ClasseInutil
     {
-        private int idCredito;
-        private string descricao;
-        private DateTime data;
-        private double valor;
-        private Usuario usuario;
-        private StatusPagamento statusPagamento;
-        private List<IObservador> listaObservadores;
-        private ContaType tipoConta;
-        private Connection conn;
+        protected int idCredito;
+        protected string descricao;
+        protected DateTime data;
+        protected double valor;
+        protected Usuario usuario;
+        protected StatusPagamento statusPagamento;
+        protected List<IObservador> listaObservadores;
+        protected ContaType tipoConta;
+        protected Connection conn;
 
         public int IdCredito { get => idCredito; set => idCredito = value; }
         public string Descricao { get => descricao; set => descricao = value; }
@@ -29,16 +29,56 @@ namespace Gerenciador_de_Debitos.Models
         public Connection Conn { get => conn; set => conn = value; }
         public ContaType TipoConta { get => tipoConta; set => tipoConta = value; }
 
-        public override sealed void TemplateMethod()
+
+        override
+        public sealed bool DeletarPorID()
         {
-            this.Cadastrar();
-            this.AlterarConta();
-            this.DeletarPorID();
+            bool sucesso = false;
+            try
+            {
+                this.conn.LimparParametros();
+                this.conn.AdicionarParametro("@idDebito", this.IdCredito.ToString());
+                int rows = this.conn.ExecutarNonQuery("DELETE FROM debitos.debito WHERE idDebito = @idDebito");
+                if (rows > 0)
+                {
+                    sucesso = true;
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
+            return sucesso;
+        }
+          override
+          public sealed bool AlterarConta()
+        {
+            int linhasAfetadas = 0;
+            try
+            {
+                string valor = this.valor.ToString().Replace(",", ".");
+                string data = this.data.ToString("yyyy-MM-dd");
+                conn.LimparParametros();
+                //conn.AdicionarParametro("@idUsuario", this.usuario.IdUsuario.ToString());
+                conn.AdicionarParametro("@descricao", this.descricao);
+                conn.AdicionarParametro("@valor", valor);
+                conn.AdicionarParametro("@idDebito", this.idCredito.ToString());
+                conn.AdicionarParametro("@data", data);
+
+                string sql = "UPDATE debitos.debito SET descricao = @descricao, valor = @valor, data = @data " +
+                    "WHERE idDebito = @idDebito";
+
+                linhasAfetadas = conn.ExecutarNonQuery(sql);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
+            return linhasAfetadas > 0;
         }
 
-        public abstract bool DeletarPorID();
-        public abstract bool AlterarConta();
-        public bool Cadastrar() // Feito por Pedro
+        override
+        public sealed bool Cadastrar() // Feito por Pedro
         {
             int linhasAfetadas = 0;
             try

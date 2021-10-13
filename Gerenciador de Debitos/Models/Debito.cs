@@ -130,26 +130,6 @@ namespace Gerenciador_de_Debitos.Model
                 }
             }
         }
-        override
-        public bool DeletarPorID()
-        {
-            bool sucesso = false;
-            try
-            {
-                this.conn.LimparParametros();
-                this.conn.AdicionarParametro("@idDebito", this.IdDebito.ToString());
-                int rows = this.conn.ExecutarNonQuery("DELETE FROM debitos.debito WHERE idDebito = @idDebito");
-                if (rows > 0)
-                {
-                    sucesso = true;
-                }
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-            }
-            return sucesso;
-        }
 
         public List<Debito> obterDebitosPorNome(Usuario usu, string descricao)
         {
@@ -209,31 +189,6 @@ namespace Gerenciador_de_Debitos.Model
             return debitos;
         }
 
-        public sealed override bool AlterarConta() // Feito por Pedro
-        {
-            int linhasAfetadas = 0;
-            try
-            {
-                string valor = this.valor.ToString().Replace(",", ".");
-                string data = this.data.ToString("yyyy-MM-dd");
-                conn.LimparParametros();
-                //conn.AdicionarParametro("@idUsuario", this.usuario.IdUsuario.ToString());
-                conn.AdicionarParametro("@descricao", this.descricao);
-                conn.AdicionarParametro("@valor", valor);
-                conn.AdicionarParametro("@idDebito", this.idDebito.ToString());
-                conn.AdicionarParametro("@data", data);
-
-                string sql = "UPDATE debitos.debito SET descricao = @descricao, valor = @valor, data = @data " +
-                    "WHERE idDebito = @idDebito";
-
-                linhasAfetadas = conn.ExecutarNonQuery(sql);
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-            }
-            return linhasAfetadas > 0;
-        }
 
         public List<Debito> filtroDebitos(Usuario usu)
         {
