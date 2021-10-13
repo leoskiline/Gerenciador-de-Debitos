@@ -29,6 +29,11 @@ namespace Gerenciador_de_Debitos.Models
             this.listaObservadores = listaObservadores;
         }
 
+        public Credito(Connection conn)
+        {
+            this.conn = conn;
+        }
+
         public int IdCredito { get => idCredito; set => idCredito = value; }
         public string Descricao { get => descricao; set => descricao = value; }
         public DateTime Data { get => data; set => data = value; }
@@ -38,32 +43,7 @@ namespace Gerenciador_de_Debitos.Models
         public Connection Conn { get => conn; set => conn = value; }
         public List<IObservador> ListaObservadores { get => listaObservadores; set => listaObservadores = value; }
        
-        public bool Cadastrar() 
-        {
-            int linhasAfetadas = 0;
-            try
-            {
-                this.conn.LimparParametros();
-                StateContext ctx = new StateContext(); // Inicia no estado padrao Pendente.
-                ctx.setState(new Pendente()); // Para deixar claro que mudou de estado para Pendente.
-                this.statusPagamento = ctx.getState().setState(ctx);
-                this.conn.AdicionarParametro("@descricao", this.Descricao);
-                this.conn.AdicionarParametro("@data", this.Data.ToString("yyyy-MM-dd"));
-                this.conn.AdicionarParametro("@valor", this.Valor.ToString().Replace(",", "."));
-                this.conn.AdicionarParametro("@idUsuario", this.Usuario.IdUsuario.ToString());
-                this.conn.AdicionarParametro("@idStatusPagamento", this.statusPagamento.IdStatusPagamento.ToString());
-                string sql = "INSERT INTO debitos.debito (descricao, data, valor,idStatusPagamento, idUsuario) " +
-                                "VALUES (@descricao,@data,@valor,@idStatusPagamento,@idUsuario)";
-                linhasAfetadas = conn.ExecutarNonQuery(sql);
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-            }
-            return linhasAfetadas > 0;
-        }
-        override
-        public bool AlterarConta() 
+        public override bool AlterarConta() 
         {
             int linhasAfetadas = 0;
             try

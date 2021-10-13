@@ -1,6 +1,4 @@
-﻿@{
-    Layout = "_Layout";
-}
+﻿@{ Layout = "_Layout"; }
 
 <div class="app-main__inner">
     <div class="tab-content">
@@ -10,17 +8,26 @@
                     <h5 class="card-title pt-3">Cadastro de Contas</h5>
                 </div>
                 <div class="card-body">
-                    
+
                     <form onsubmit="return false">
                         <div class="form-row">
-                            <div class="col-md-6">
+                            <div class="col-md-5">
                                 <div class="position-relative form-group"><label for="descricao" class="">Descrição da conta</label><input name="descricao" id="descricao" type="text" class="form-control"></div>
                             </div>
                             <div class="col-md-3">
                                 <div class="position-relative form-group"><label for="data" class="">Data de cobrança</label><input name="data" id="data" type="date" class="form-control"></div>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-2">
                                 <div class="position-relative form-group"><label for="valor" class="">Valor</label><input name="valor" id="valor" type="text" class="form-control"></div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="position-relative form-group">
+                                    <label for="tipoConta" class="">Tipo Conta</label>
+                                    <select name="tipoConta" id="tipoConta" class="form-control">
+                                        <option value="1">Débito</option>
+                                        <option value="2">Crédito</option>
+                                    </select>
+                                </div>
                             </div>
                         </div>
                         <button class="mt-2 btn btn-success float-right" onclick="_gerenciarContas.CadastrarConta()"><i class="fa fa-check-square text-white"></i> Cadastrar</button>
@@ -37,196 +44,197 @@
                 </div>
                 <div class="card-body">
                     <div class="row">
-                       
+
                     </div>
                     <div class="row">
                         <div class="table-responsive">
                             <table class="align-middle mb-0 table sampleTable table-borderless table-hover" id="dataTable">
-                        <thead>
-                            <tr>
-                                <th>DESCRIÇÃO</th>
-                                <th class="text-center">DATA</th>
-                                <th class="text-center">VALOR</th>
-                                <th class="text-center">STATUS</th>
-                                <th class="text-center">OPÇÕES</th>
-                            </tr>
-                        </thead>
+                                <thead>
+                                    <tr>
+                                        <th>DESCRIÇÃO</th>
+                                        <th class="text-center">DATA</th>
+                                        <th class="text-center">VALOR</th>
+                                        <th class="text-center">STATUS</th>
+                                        <th class="text-center">TIPO DA CONTA</th>
+                                        <th class="text-center">OPÇÕES</th>
+                                    </tr>
+                                </thead>
                                 <tbody id="tabela">
                                     @*<tr>
-                                        <td style="display:none;"></td>
-                                        <td style="display:none;"></td>
-                                        <td style="display:none;"></td>
-                                    </tr>*@
-                                </tbody> 
+                                            <td style="display:none;"></td>
+                                            <td style="display:none;"></td>
+                                            <td style="display:none;"></td>
+                                        </tr>*@
+                                </tbody>
                             </table>
 
                             @*<table id="sampleTableB" class="table table-striped sampleTable">
-                                <tbody>
-                                    <tr>
-                                        <td>TESTE</td>
-                                        <td>TESTE</td>
-                                        <td>TESTE</td>
-                                        <td>TESTE</td>
-                                    </tr>
-                                    <tr>
-                                        <td>TESTE2</td>
-                                        <td>TESTE2</td>
-                                        <td>TESTE2</td>
-                                        <td>TESTE2</td>
-                                    </tr>
-                                    <tr>
-                                        <td>TESTE3</td>
-                                        <td>TESTE3</td>
-                                        <td>TESTE3</td>
-                                        <td>TESTE3</td>
-                                    </tr>
-                                    <tr>
-                                        <td>TESTE</td>
-                                        <td>TESTE</td>
-                                        <td>TESTE</td>
-                                        <td>TESTE</td>
-                                    </tr>
-                                    <tr>
-                                        <td>TESTE2</td>
-                                        <td>TESTE2</td>
-                                        <td>TESTE2</td>
-                                        <td>TESTE2</td>
-                                    </tr>
-                                    <tr>
-                                        <td>TESTE3</td>
-                                        <td>TESTE3</td>
-                                        <td>TESTE3</td>
-                                        <td>TESTE3</td>
-                                    </tr>
-                                    <tr>
-                                        <td>TESTE</td>
-                                        <td>TESTE</td>
-                                        <td>TESTE</td>
-                                        <td>TESTE</td>
-                                    </tr>
-                                    <tr>
-                                        <td>TESTE2</td>
-                                        <td>TESTE2</td>
-                                        <td>TESTE2</td>
-                                        <td>TESTE2</td>
-                                    </tr>
-                                    <tr>
-                                        <td>TESTE3</td>
-                                        <td>TESTE3</td>
-                                        <td>TESTE3</td>
-                                        <td>TESTE3</td>
-                                    </tr>
-                                    <tr>
-                                        <td>TESTE</td>
-                                        <td>TESTE</td>
-                                        <td>TESTE</td>
-                                        <td>TESTE</td>
-                                    </tr>
-                                    <tr>
-                                        <td>TESTE2</td>
-                                        <td>TESTE2</td>
-                                        <td>TESTE2</td>
-                                        <td>TESTE2</td>
-                                    </tr>
-                                    <tr>
-                                        <td>TESTE3</td>
-                                        <td>TESTE3</td>
-                                        <td>TESTE3</td>
-                                        <td>TESTE3</td>
-                                    </tr>
-                                    <tr>
-                                        <td>TESTE</td>
-                                        <td>TESTE</td>
-                                        <td>TESTE</td>
-                                        <td>TESTE</td>
-                                    </tr>
-                                    <tr>
-                                        <td>TESTE2</td>
-                                        <td>TESTE2</td>
-                                        <td>TESTE2</td>
-                                        <td>TESTE2</td>
-                                    </tr>
-                                    <tr>
-                                        <td>TESTE3</td>
-                                        <td>TESTE3</td>
-                                        <td>TESTE3</td>
-                                        <td>TESTE3</td>
-                                    </tr>
-                                    <tr>
-                                        <td>TESTE</td>
-                                        <td>TESTE</td>
-                                        <td>TESTE</td>
-                                        <td>TESTE</td>
-                                    </tr>
-                                    <tr>
-                                        <td>TESTE2</td>
-                                        <td>TESTE2</td>
-                                        <td>TESTE2</td>
-                                        <td>TESTE2</td>
-                                    </tr>
-                                    <tr>
-                                        <td>TESTE3</td>
-                                        <td>TESTE3</td>
-                                        <td>TESTE3</td>
-                                        <td>TESTE3</td>
-                                    </tr>
-                                    <tr>
-                                        <td>TESTE</td>
-                                        <td>TESTE</td>
-                                        <td>TESTE</td>
-                                        <td>TESTE</td>
-                                    </tr>
-                                    <tr>
-                                        <td>TESTE2</td>
-                                        <td>TESTE2</td>
-                                        <td>TESTE2</td>
-                                        <td>TESTE2</td>
-                                    </tr>
-                                    <tr>
-                                        <td>TESTE3</td>
-                                        <td>TESTE3</td>
-                                        <td>TESTE3</td>
-                                        <td>TESTE3</td>
-                                    </tr>
-                                    <tr>
-                                        <td>TESTE</td>
-                                        <td>TESTE</td>
-                                        <td>TESTE</td>
-                                        <td>TESTE</td>
-                                    </tr>
-                                    <tr>
-                                        <td>TESTE2</td>
-                                        <td>TESTE2</td>
-                                        <td>TESTE2</td>
-                                        <td>TESTE2</td>
-                                    </tr>
-                                    <tr>
-                                        <td>TESTE3</td>
-                                        <td>TESTE3</td>
-                                        <td>TESTE3</td>
-                                        <td>TESTE3</td>
-                                    </tr>
-                                    <tr>
-                                        <td>TESTE</td>
-                                        <td>TESTE</td>
-                                        <td>TESTE</td>
-                                        <td>TESTE</td>
-                                    </tr>
-                                    <tr>
-                                        <td>TESTE2</td>
-                                        <td>TESTE2</td>
-                                        <td>TESTE2</td>
-                                        <td>TESTE2</td>
-                                    </tr>
-                                    <tr>
-                                        <td>TESTE3</td>
-                                        <td>TESTE3</td>
-                                        <td>TESTE3</td>
-                                        <td>TESTE3</td>
-                                    </tr>
+                                    <tbody>
+                                        <tr>
+                                            <td>TESTE</td>
+                                            <td>TESTE</td>
+                                            <td>TESTE</td>
+                                            <td>TESTE</td>
+                                        </tr>
+                                        <tr>
+                                            <td>TESTE2</td>
+                                            <td>TESTE2</td>
+                                            <td>TESTE2</td>
+                                            <td>TESTE2</td>
+                                        </tr>
+                                        <tr>
+                                            <td>TESTE3</td>
+                                            <td>TESTE3</td>
+                                            <td>TESTE3</td>
+                                            <td>TESTE3</td>
+                                        </tr>
+                                        <tr>
+                                            <td>TESTE</td>
+                                            <td>TESTE</td>
+                                            <td>TESTE</td>
+                                            <td>TESTE</td>
+                                        </tr>
+                                        <tr>
+                                            <td>TESTE2</td>
+                                            <td>TESTE2</td>
+                                            <td>TESTE2</td>
+                                            <td>TESTE2</td>
+                                        </tr>
+                                        <tr>
+                                            <td>TESTE3</td>
+                                            <td>TESTE3</td>
+                                            <td>TESTE3</td>
+                                            <td>TESTE3</td>
+                                        </tr>
+                                        <tr>
+                                            <td>TESTE</td>
+                                            <td>TESTE</td>
+                                            <td>TESTE</td>
+                                            <td>TESTE</td>
+                                        </tr>
+                                        <tr>
+                                            <td>TESTE2</td>
+                                            <td>TESTE2</td>
+                                            <td>TESTE2</td>
+                                            <td>TESTE2</td>
+                                        </tr>
+                                        <tr>
+                                            <td>TESTE3</td>
+                                            <td>TESTE3</td>
+                                            <td>TESTE3</td>
+                                            <td>TESTE3</td>
+                                        </tr>
+                                        <tr>
+                                            <td>TESTE</td>
+                                            <td>TESTE</td>
+                                            <td>TESTE</td>
+                                            <td>TESTE</td>
+                                        </tr>
+                                        <tr>
+                                            <td>TESTE2</td>
+                                            <td>TESTE2</td>
+                                            <td>TESTE2</td>
+                                            <td>TESTE2</td>
+                                        </tr>
+                                        <tr>
+                                            <td>TESTE3</td>
+                                            <td>TESTE3</td>
+                                            <td>TESTE3</td>
+                                            <td>TESTE3</td>
+                                        </tr>
+                                        <tr>
+                                            <td>TESTE</td>
+                                            <td>TESTE</td>
+                                            <td>TESTE</td>
+                                            <td>TESTE</td>
+                                        </tr>
+                                        <tr>
+                                            <td>TESTE2</td>
+                                            <td>TESTE2</td>
+                                            <td>TESTE2</td>
+                                            <td>TESTE2</td>
+                                        </tr>
+                                        <tr>
+                                            <td>TESTE3</td>
+                                            <td>TESTE3</td>
+                                            <td>TESTE3</td>
+                                            <td>TESTE3</td>
+                                        </tr>
+                                        <tr>
+                                            <td>TESTE</td>
+                                            <td>TESTE</td>
+                                            <td>TESTE</td>
+                                            <td>TESTE</td>
+                                        </tr>
+                                        <tr>
+                                            <td>TESTE2</td>
+                                            <td>TESTE2</td>
+                                            <td>TESTE2</td>
+                                            <td>TESTE2</td>
+                                        </tr>
+                                        <tr>
+                                            <td>TESTE3</td>
+                                            <td>TESTE3</td>
+                                            <td>TESTE3</td>
+                                            <td>TESTE3</td>
+                                        </tr>
+                                        <tr>
+                                            <td>TESTE</td>
+                                            <td>TESTE</td>
+                                            <td>TESTE</td>
+                                            <td>TESTE</td>
+                                        </tr>
+                                        <tr>
+                                            <td>TESTE2</td>
+                                            <td>TESTE2</td>
+                                            <td>TESTE2</td>
+                                            <td>TESTE2</td>
+                                        </tr>
+                                        <tr>
+                                            <td>TESTE3</td>
+                                            <td>TESTE3</td>
+                                            <td>TESTE3</td>
+                                            <td>TESTE3</td>
+                                        </tr>
+                                        <tr>
+                                            <td>TESTE</td>
+                                            <td>TESTE</td>
+                                            <td>TESTE</td>
+                                            <td>TESTE</td>
+                                        </tr>
+                                        <tr>
+                                            <td>TESTE2</td>
+                                            <td>TESTE2</td>
+                                            <td>TESTE2</td>
+                                            <td>TESTE2</td>
+                                        </tr>
+                                        <tr>
+                                            <td>TESTE3</td>
+                                            <td>TESTE3</td>
+                                            <td>TESTE3</td>
+                                            <td>TESTE3</td>
+                                        </tr>
+                                        <tr>
+                                            <td>TESTE</td>
+                                            <td>TESTE</td>
+                                            <td>TESTE</td>
+                                            <td>TESTE</td>
+                                        </tr>
+                                        <tr>
+                                            <td>TESTE2</td>
+                                            <td>TESTE2</td>
+                                            <td>TESTE2</td>
+                                            <td>TESTE2</td>
+                                        </tr>
+                                        <tr>
+                                            <td>TESTE3</td>
+                                            <td>TESTE3</td>
+                                            <td>TESTE3</td>
+                                            <td>TESTE3</td>
+                                        </tr>
 
-                                </tbody>
-                            </table>*@
+                                    </tbody>
+                                </table>*@
 
 
 

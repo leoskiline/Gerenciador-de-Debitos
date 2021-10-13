@@ -6,6 +6,8 @@ using System.Security.Claims;
 using System.Text.Json;
 using System.Threading.Tasks;
 using Gerenciador_de_Debitos.Model;
+using Gerenciador_de_Debitos.Models;
+using Gerenciador_de_Debitos.Types;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -32,7 +34,7 @@ namespace Gerenciador_de_Debitos.Controller
         [Authorize("Autorizacao")]
         public IActionResult obterUsuario()
         {
-            return Ok(User.Claims.Select(x => new { Type = x.Type, Value = x.Value}));
+            return Ok(User.Claims.Select(x => new { Type = x.Type, Value = x.Value }));
         }
 
 
@@ -42,7 +44,7 @@ namespace Gerenciador_de_Debitos.Controller
         {
             int codigo = Convert.ToInt32(dados.GetProperty("idDebito").ToString());
             this.conn.AbrirConexao();
-            Debito debito = new Debito(codigo,this.conn);
+            Debito debito = new Debito(codigo, this.conn);
             bool ret = debito.DeletarPorID();
             this.conn.FecharConexao();
             return Json(ret);
@@ -53,7 +55,7 @@ namespace Gerenciador_de_Debitos.Controller
         public IActionResult AlterarDados([FromBody] JsonElement dados)
         {
             int codigo = Convert.ToInt32(dados.GetProperty("modalCodigo").ToString());
-            double valor = Convert.ToDouble(dados.GetProperty("modalValor").ToString().Replace(",", "."))/100;
+            double valor = Convert.ToDouble(dados.GetProperty("modalValor").ToString().Replace(",", ".")) / 100;
             string descricao = (dados.GetProperty("modalDescricao").ToString());
             DateTime data = Convert.ToDateTime(dados.GetProperty("modalData").ToString());
 
@@ -92,7 +94,7 @@ namespace Gerenciador_de_Debitos.Controller
             }
 
             this.conn.AbrirConexao();
-            
+
             if (!invalido)
             {
                 debito.IdDebito = codigo;
@@ -127,9 +129,11 @@ namespace Gerenciador_de_Debitos.Controller
             string descricao = Request.Form["descricao"].ToString();
             double valor = Convert.ToDouble(Request.Form["valor"]);
             DateTime data = Convert.ToDateTime(Request.Form["data"]);
+            int tipoConta = Convert.ToInt32(Request.Form["tipoConta"]);
 
             this.conn.AbrirConexao();
-            Debito debito = new Debito(this.conn);
+            Debito debito = new (this.conn);
+            Credito credito = new (this.conn);
             Usuario usuario = new Usuario(Convert.ToInt32(HttpContext.User.Claims.Where(w => w.Type == "idUsuario").First().Value),
             User.Claims.Where(w => w.Type == "Email").First().Value, "",
             User.Claims.Where(w => w.Type == "Nome").First().Value,
@@ -166,14 +170,24 @@ namespace Gerenciador_de_Debitos.Controller
 
             // Gravar Dados
             bool cadastrado = false;
-            
+
             if (!invalido)
             {
                 debito.Descricao = descricao;
                 debito.Data = data;
                 debito.Valor = valor;
                 debito.Usuario = usuario;
-                cadastrado = debito.Cadastrar();
+                debito.TipoConta = (ContaType)tipoConta;
+                
+                if (tipoConta == 0)
+                {
+                    cadastrado = debito.Cadastrar();
+                }
+                else
+                {
+                    cadastrado = credito.Cadastrar();
+                }
+
                 msg = "Conta Cadastrada com Sucesso!";
                 icon = "success";
             }
@@ -213,13 +227,13 @@ namespace Gerenciador_de_Debitos.Controller
             this.conn.AbrirConexao();
             Debito debito = new Debito(this.conn);
             Usuario usuario = new Usuario(Convert.ToInt32(HttpContext.User.Claims.Where(w => w.Type == "idUsuario").First().Value),
-            User.Claims.Where(w => w.Type == "Email").First().Value,"",
+            User.Claims.Where(w => w.Type == "Email").First().Value, "",
             User.Claims.Where(w => w.Type == "Nome").First().Value,
             User.Claims.Where(w => w.Type == "Nivel").First().Value,
             this.conn);
             List<Debito> debitos = debito.obterDebitosBanco(usuario);
             this.conn.FecharConexao();
-            return Json(debitos);   
+            return Json(debitos);
         }
     }
 }

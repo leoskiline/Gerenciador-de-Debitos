@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace Gerenciador_de_Debitos.Types
+﻿namespace Gerenciador_de_Debitos.Types
 {
-    public class ContextType
+    public enum ContaType
     {
+        Debito = 0,
+        Credito = 1
     }
 }

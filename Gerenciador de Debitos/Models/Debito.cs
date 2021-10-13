@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
 using Gerenciador_de_Debitos.Models;
+using Gerenciador_de_Debitos.Types;
 
 namespace Gerenciador_de_Debitos.Model
 {
@@ -61,7 +62,7 @@ namespace Gerenciador_de_Debitos.Model
     }
 
 
-    public class Debito :TemplateMethodBaseClass, ISujeito
+    public class Debito : TemplateMethodBaseClass, ISujeito
     {
         private int idDebito;
         private string descricao;
@@ -71,8 +72,9 @@ namespace Gerenciador_de_Debitos.Model
         private StatusPagamento statusPagamento;
         private Connection conn;
         private List<IObservador> listaObservadores;
+        private ContaType tipoConta;
 
-        public Debito(int idDebito, string descricao, DateTime data, double valor, Usuario usuario,StatusPagamento statusPagamento,Connection conn)
+        public Debito(int idDebito, string descricao, DateTime data, double valor, Usuario usuario, StatusPagamento statusPagamento, Connection conn)
         {
             this.IdDebito = idDebito;
             this.Descricao = descricao;
@@ -89,7 +91,7 @@ namespace Gerenciador_de_Debitos.Model
             this.conn = conn;
         }
 
-        public Debito(int idDebito,Connection conn)
+        public Debito(int idDebito, Connection conn)
         {
             this.IdDebito = idDebito;
             this.conn = conn;
@@ -101,10 +103,11 @@ namespace Gerenciador_de_Debitos.Model
         public double Valor { get => valor; set => valor = value; }
         public Usuario Usuario { get => usuario; set => usuario = value; }
         public StatusPagamento StatusPagamento { get => statusPagamento; set => statusPagamento = value; }
-        
-        public void AdicionarOBS(IObservador observador)    {this.listaObservadores.Add(observador);}
+        public ContaType TipoConta { get => tipoConta; set => tipoConta = value; }
 
-        public void RemoverOBS(IObservador observador)  {this.listaObservadores.Remove(observador);}
+        public void AdicionarOBS(IObservador observador) { this.listaObservadores.Add(observador); }
+
+        public void RemoverOBS(IObservador observador) { this.listaObservadores.Remove(observador); }
 
         public void NotificarOBS()
         {
@@ -136,11 +139,12 @@ namespace Gerenciador_de_Debitos.Model
                 this.conn.LimparParametros();
                 this.conn.AdicionarParametro("@idDebito", this.IdDebito.ToString());
                 int rows = this.conn.ExecutarNonQuery("DELETE FROM debitos.debito WHERE idDebito = @idDebito");
-                if(rows > 0)
+                if (rows > 0)
                 {
                     sucesso = true;
                 }
-            }catch(Exception e)
+            }
+            catch (Exception e)
             {
                 Console.WriteLine(e);
             }
@@ -182,8 +186,8 @@ namespace Gerenciador_de_Debitos.Model
                 conn.LimparParametros();
                 conn.AdicionarParametro("@idUsuario", usuario.IdUsuario.ToString());
                 DataTable dt = conn.ExecutarSelect("SELECT * FROM debitos.debito where idUsuario = @idUsuario");
-                if(dt.Rows.Count>0)
-                {           
+                if (dt.Rows.Count > 0)
+                {
                     foreach (DataRow row in dt.Rows)
                     {
                         Debito debito = new Debito(this.conn);
@@ -193,46 +197,24 @@ namespace Gerenciador_de_Debitos.Model
                         debito.Valor = Convert.ToDouble(row["valor"]);
                         debito.statusPagamento = new StatusPagamento().obterStatusPagamentoPorID(Convert.ToInt32(row["idStatusPagamento"]));
                         debito.Usuario = usuario;
+                        debito.tipoConta = (ContaType)row["tipoConta"];
                         debitos.Add(debito);
                     }
                 }
-            }catch(Exception e)
+            }
+            catch (Exception e)
             {
                 Console.WriteLine(e);
             }
             return debitos;
         }
 
-        public bool Cadastrar() // Feito por Pedro
-        {
-            int linhasAfetadas = 0;
-            try
-            {
-                this.conn.LimparParametros();
-                StateContext ctx = new StateContext(); // Inicia no estado padrao Pendente.
-                ctx.setState(new Pendente()); // Para deixar claro que mudou de estado para Pendente.
-                this.statusPagamento = ctx.getState().setState(ctx);
-                this.conn.AdicionarParametro("@descricao", this.Descricao);
-                this.conn.AdicionarParametro("@data", this.Data.ToString("yyyy-MM-dd"));
-                this.conn.AdicionarParametro("@valor", this.Valor.ToString().Replace(",","."));
-                this.conn.AdicionarParametro("@idUsuario", this.Usuario.IdUsuario.ToString());
-                this.conn.AdicionarParametro("@idStatusPagamento", this.statusPagamento.IdStatusPagamento.ToString());
-                string sql = "INSERT INTO debitos.debito (descricao, data, valor,idStatusPagamento, idUsuario) " +
-                                "VALUES (@descricao,@data,@valor,@idStatusPagamento,@idUsuario)";
-                linhasAfetadas = conn.ExecutarNonQuery(sql);
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-            }
-            return linhasAfetadas > 0;
-        }
         public sealed override bool AlterarConta() // Feito por Pedro
         {
             int linhasAfetadas = 0;
             try
             {
-                string valor = this.valor.ToString().Replace(",",".");
+                string valor = this.valor.ToString().Replace(",", ".");
                 string data = this.data.ToString("yyyy-MM-dd");
                 conn.LimparParametros();
                 //conn.AdicionarParametro("@idUsuario", this.usuario.IdUsuario.ToString());
@@ -243,7 +225,7 @@ namespace Gerenciador_de_Debitos.Model
 
                 string sql = "UPDATE debitos.debito SET descricao = @descricao, valor = @valor, data = @data " +
                     "WHERE idDebito = @idDebito";
-                
+
                 linhasAfetadas = conn.ExecutarNonQuery(sql);
             }
             catch (Exception e)
@@ -280,7 +262,5 @@ namespace Gerenciador_de_Debitos.Model
             }
             return debitos;
         }
-
-       
     }
 }
