@@ -459,6 +459,10 @@
         $("#modalValor").maskMoney({ prefix: 'R$ ', allowNegative: false, thousands: '.', decimal: ',', affixesStay: true, allowZero: false });
     }
 
+    gerarNotificacoes(){
+
+    }
+
 }
 
 var _gerenciarContas = new GerenciarContas();

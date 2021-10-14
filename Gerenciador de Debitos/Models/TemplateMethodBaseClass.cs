@@ -50,8 +50,8 @@ namespace Gerenciador_de_Debitos.Models
             }
             return sucesso;
         }
-          override
-          public sealed bool AlterarConta()
+        override
+        public sealed bool AlterarConta()
         {
             int linhasAfetadas = 0;
             try
@@ -60,7 +60,7 @@ namespace Gerenciador_de_Debitos.Models
                 string data = this.data.ToString("yyyy-MM-dd");
                 conn.LimparParametros();
                 //conn.AdicionarParametro("@idUsuario", this.usuario.IdUsuario.ToString());
-                conn.AdicionarParametro("@descricao", this.descricao);
+                conn.AdicionarParametro("@descricao", this.Descricao);
                 conn.AdicionarParametro("@valor", valor);
                 conn.AdicionarParametro("@idDebito", this.idCredito.ToString());
                 conn.AdicionarParametro("@data", data);
