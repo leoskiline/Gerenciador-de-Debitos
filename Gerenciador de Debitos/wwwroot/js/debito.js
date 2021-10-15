@@ -359,14 +359,17 @@
                 if (ret) {
                     Swal.fire(
                         {
-                            icon: "success",
-                            title: "Conta Alterada com Sucesso.",
+                            icon: ret.icon,
+                            title: ret.msg,
                             confirmButtonColor: '#3085d6'
                         }
                     )
-                    setTimeout(() => {
-                        window.location.reload();
-                    }, 1000)
+                    if (ret.icon == "success") {
+                        setTimeout(() => {
+                            window.location.reload();
+                        }, 1000)
+                    }
+                    
                 }
                 else {
                     Swal.fire(

@@ -1,5 +1,7 @@
-﻿using Gerenciador_de_Debitos.Model;
+﻿using Gerenciador_de_Debitos.Control;
+using Gerenciador_de_Debitos.Model;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -10,15 +12,15 @@ namespace Gerenciador_de_Debitos.Controller
 {
     public class LoginController : Microsoft.AspNetCore.Mvc.Controller
     {
-        private Connection conexao;
+        private LoginControl control;
         private UsuarioAutenticado _ua;
 
         public LoginController(UsuarioAutenticado ua)
         {
             _ua = ua;
-            if(conexao == null)
+            if(this.control == null)
             {
-                conexao = new Connection();
+                this.control = new LoginControl();
             }
             
         }
@@ -42,57 +44,18 @@ namespace Gerenciador_de_Debitos.Controller
         [HttpPost]
         public ActionResult Registrar()
         {
-            this.conexao.AbrirConexao();
-            Usuario user = new Usuario(this.conexao);
-            user.Nome = Request.Form["nome"].ToString();
-            user.Email = Request.Form["email"].ToString();
-            user.Senha = Request.Form["senha"].ToString();
-            NameValueCollection ret = user.registrarUsuario();
-            string icon = ret["icon"];
-            string message = ret["message"];
-            var retorno = new
-            {
-                icon,
-                message
-            };
-            this.conexao.FecharConexao();
-            return Json(retorno);
+            string nome= Request.Form["nome"].ToString();
+            string email  = Request.Form["email"].ToString();
+            string senha = Request.Form["senha"].ToString();
+            return this.control.Registrar(nome, email, senha);
         }
 
         [HttpPost]
         public ActionResult Logar()
         {
-            this.conexao.AbrirConexao();
-            string icon = "error";
-            string message = "Usuario ou Senha Invalida.";
-            Usuario user = new Usuario(this.conexao);
-            user.Email = Request.Form["email"].ToString();
-            user.Senha = Request.Form["senha"].ToString();
-            if(user.autenticarUsuario())
-            {
-                var userClaims = new List<Claim>()
-                {
-                    new Claim("Nome", user.Nome),
-                    new Claim("Email", user.Email),
-                    new Claim("idUsuario", user.IdUsuario.ToString()),
-                    new Claim("Nivel", user.Nivel)
-                };
-                var identity = new ClaimsIdentity(userClaims, "Identificacao do Usuario");
-                ClaimsPrincipal principal = new ClaimsPrincipal(identity);
-                AuthenticationHttpContextExtensions.SignInAsync(HttpContext, principal, new AuthenticationProperties
-                {
-                    ExpiresUtc = DateTime.UtcNow.AddDays(1)
-                });
-                icon = "success";
-                message = "Autenticado com Sucesso!";
-            }
-            var retorno = new
-            {
-                icon = icon,
-                message = message
-            };
-            this.conexao.FecharConexao();
-            return Json(retorno);
+            string email = Request.Form["email"].ToString();
+            string senha = Request.Form["senha"].ToString();
+            return this.control.Logar(email, senha, HttpContext);
         }
     }
 }
